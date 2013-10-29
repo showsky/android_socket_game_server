@@ -9,19 +9,24 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.miiitv.game.R;
 import com.miiitv.game.server.Api;
 import com.miiitv.game.server.Logger;
 
 public class GameActivity extends Activity {
-	private final static String	TAG	= "Game";
-	private WebView				wv;
-	private Context				mContext;
+	private final static String	TAG			= "Game";
+	private final static String	GAME		= "game";
+	private int					userCount	= 0;
+	private String				_answer;
 	private Api					api;
+	private Context				mContext;
+	private WebView				wv;
 	private WebViewClient		mWebViewClient;
 	private WebChromeClient		mWebChromeClient;
 
@@ -30,14 +35,14 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.game);
 		init();
-		new Play().execute();
 
-		addUser("jasonni1231");
+		addPlayer("jasonni1231");
 
 		wv = (WebView) findViewById(R.id.game);
 		wv.setWebChromeClient(mWebChromeClient);
 		wv.setWebViewClient(mWebViewClient);
 		wv.getSettings().setJavaScriptEnabled(true);
+		wv.addJavascriptInterface(new GameStart(), GAME);
 		wv.loadUrl("file:///android_asset/example.html");
 	}
 
@@ -65,12 +70,52 @@ public class GameActivity extends Activity {
 	public interface Callback {
 	}
 
-	public void addUser(String fbId) {
+	public void addPlayer(String fbId) {
 		if (TextUtils.isEmpty(fbId)) {
 			return;
 		}
 		new Avatar().execute(fbId);
+
+		userCount += 1;
+		if (userCount == 4) {
+			new Play().execute();
+		}
 	};
+
+	private class GameStart {
+		@JavascriptInterface
+		public void start() {
+			Toast.makeText(mContext, "Game Start", Toast.LENGTH_LONG).show();
+			selectAnswerer("Jason");
+		}
+	}
+
+	/**
+	 * answer question.
+	 *
+	 * @param fbId
+	 */
+	public void selectAnswerer(String fbId) {
+		if (TextUtils.isEmpty(fbId)) {
+			return;
+		}
+		wv.loadUrl("javascript:selectAnswerer('" + fbId + "');");
+	}
+
+	public void matchAnswer(String fbId, String answer) {
+		boolean result = TextUtils.equals(_answer, answer);
+		wv.loadUrl("javascript:showResult('" + String.valueOf(result) + "');");
+
+		if (result) {
+			try {
+				Thread.sleep(3000);
+				new Play().execute();
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	private class Avatar extends AsyncTask<String, Void, Boolean> {
 		private JSONObject	player;
@@ -84,8 +129,8 @@ public class GameActivity extends Activity {
 			if (!TextUtils.isEmpty(avatarUrl)) {
 				player = new JSONObject();
 				try {
-					player.put("fb_id", fbId);
-					player.put("fb_avatar", avatarUrl);
+					player.put("id", fbId);
+					player.put("avatar", avatarUrl);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -145,6 +190,11 @@ public class GameActivity extends Activity {
 				load = null;
 			}
 			if (result) {
+				try {
+					_answer = question.getString("answer");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 				wv.loadUrl("javascript:showQuestion('" + question.toString() + "');");
 			}
 		}

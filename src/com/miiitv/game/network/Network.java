@@ -41,12 +41,11 @@ import com.miiitv.game.network.NetworkException.TYPE;
 import com.miiitv.game.server.Logger;
 import com.miiitv.game.server.config.Config;
 
-
 public class Network {
 
-	private final static String TAG = "Network";
-	private static Network instance = null;
-	private DefaultHttpClient connection;
+	private final static String	TAG			= "Network";
+	private static Network		instance	= null;
+	private DefaultHttpClient	connection;
 
 	private Network() {
 		init();
@@ -67,10 +66,11 @@ public class Network {
 		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 		schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
 		ClientConnectionManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
-		connection = new DefaultHttpClient(cm , params);
+		connection = new DefaultHttpClient(cm, params);
 		connection.setCookieStore(new BasicCookieStore());
 
-		if (Logger.isDebug()) TrafficStatsCompat.setThreadStatsTag(0xF00D);
+		if (Logger.isDebug())
+			TrafficStatsCompat.setThreadStatsTag(0xF00D);
 	}
 
 	public static Network getInstance() {
@@ -94,7 +94,7 @@ public class Network {
 	public String post(String action, ArrayList<NameValuePair> postValues) throws NetworkException {
 		Logger.d(TAG, "Post: ", action, " data: ", postValues.toString());
 		String data = null;
-		String url = Config.API_URL + action;
+		String url = action;
 		Logger.d(TAG, "Url: ", url);
 		HttpPost post = new HttpPost(url);
 		try {
@@ -123,14 +123,15 @@ public class Network {
 		}
 		String data = null;
 		StringBuilder url = new StringBuilder();
-		url.append(Config.API_URL + action);
+		url.append(action);
 		if (getValues != null)
 			url.append("?" + URLEncodedUtils.format(getValues, "UTF-8").toString());
 		Logger.d(TAG, "Url: ", url.toString());
 		HttpGet get = new HttpGet(url.toString());
 		try {
 			HttpResponse response = connection.execute(get);
-			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) new NetworkException(TYPE.HTTP_FAIL);
+			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
+				new NetworkException(TYPE.HTTP_FAIL);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				data = EntityUtils.toString(entity, HTTP.UTF_8);
@@ -155,19 +156,20 @@ public class Network {
 	public long postDownload(String action, ArrayList<NameValuePair> postValue, String filename, String savePtah) {
 		Logger.d(TAG, "Download post data: ", postValue.toString());
 		long size = 0;
-		String url = Config.API_URL + action;
+		String url = action;
 		Logger.d(TAG, "Url: ", url);
 		HttpPost post = new HttpPost(url);
 		try {
 			post.setEntity(new UrlEncodedFormEntity(postValue, HTTP.UTF_8));
 			HttpResponse response = connection.execute(post);
-			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) throw new NetworkException(TYPE.HTTP_FAIL);
+			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
+				throw new NetworkException(TYPE.HTTP_FAIL);
 			byte[] buffer = new byte[1024 * 8];
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				InputStream is = entity.getContent();
 				File path = new File(savePtah);
-				if ( ! path.exists())
+				if (!path.exists())
 					path.mkdirs();
 				File savePathFilename = new File(path, filename);
 				Logger.e(TAG, "downlad save path: ", savePathFilename.getAbsolutePath());
@@ -198,13 +200,14 @@ public class Network {
 		HttpGet get = new HttpGet(url);
 		try {
 			HttpResponse response = connection.execute(get);
-			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) throw new NetworkException(TYPE.HTTP_FAIL);
+			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
+				throw new NetworkException(TYPE.HTTP_FAIL);
 			byte[] buffer = new byte[1024 * 8];
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				InputStream is = entity.getContent();
 				File path = new File(savePtah);
-				if ( ! path.exists())
+				if (!path.exists())
 					path.mkdirs();
 				File savePathFilename = new File(path, filename);
 				Logger.e(TAG, "Image downlad save path: ", savePathFilename.getAbsolutePath());

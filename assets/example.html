@@ -17,7 +17,25 @@
 
         function addPlayer (player) {
             if (player) {
-                alert(player);
+                var user = JSON.parse(player);
+                document.getElementById('player1').setAttribute('src', user.avatar);
+                document.getElementById('player1').setAttribute('alt', user.id);
+                setTimeout(function () {
+                    window.game.start();
+                }, 3000);
+            }
+        }
+
+        function selectAnswerer (fbId) {
+            alert('answer : ' + fbId);
+        }
+
+        function showResult (result) {
+            if (result === 'true') {
+                alert('O');
+            } else {
+                alert('X');
+                window.game.start();
             }
         }
 	</script>
@@ -30,5 +48,6 @@
     </form>
     <div id="question_section">
     </div>
+    <img src="" alt="" id="player1"/>
 </body>
 </html>
