@@ -17,7 +17,7 @@ import com.miiitv.game.R;
 import com.miiitv.game.server.Api;
 import com.miiitv.game.server.Logger;
 
-public class GameActivity extends Activity {
+public class GameActivity extends Activity implements RankListener {
 	private final static String	TAG	= "Game";
 	private WebView				wv;
 	private Context				mContext;
@@ -150,4 +150,8 @@ public class GameActivity extends Activity {
 		}
 	}
 
+	@Override
+	public void join(String facebookID) {
+		// TODO Auto-generated method stub
+	}
 }
