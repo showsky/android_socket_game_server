@@ -14,6 +14,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 
 import com.miiitv.game.server.config.Config;
+import com.miiitv.game.service.ServerService;
 import com.miiitv.game.upnp.BrowseRegistryListener;
 import com.miiitv.game.utils.UpnpUtils;
 
@@ -22,6 +23,7 @@ public class App extends Application {
 	private final static String TAG = "App";
 	private static App instance = null;
 	public AndroidUpnpService upnpService = null;
+	public ServerService serverService = null;
 	private HandlerThread handlerThread = null;
 	private EventHandler eventHandler = null;
 	private BrowseRegistryListener registryListener = new BrowseRegistryListener();
@@ -48,6 +50,19 @@ public class App extends Application {
 			}
 		}
 	};
+	private ServiceConnection serverServiceConnection = new ServiceConnection() {
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			Logger.i(TAG, "Server onServiceDisconnected()");
+			serverService = null;
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			Logger.i(TAG, "Server onServiceConnected()");
+			serverService = ((ServerService.LocalBinder) service).getService();
+		}
+	};
 	
 	public App() {
 		Logger.setProject(Config.PROJECT_NAME, Config.DEBUG_MODE);
@@ -63,6 +78,7 @@ public class App extends Application {
 		Logger.i(TAG, "onCreate");
 		instance = this;
 		initHandler();
+		initServerService();
 		initUpnp();
 	}
 	
@@ -80,6 +96,11 @@ public class App extends Application {
 		bindService(intent, upnpServiceConnection, Context.BIND_AUTO_CREATE);
 	}
 	
+	private void initServerService() {
+		Intent intent = new Intent(getApplicationContext(), ServerService.class);
+		bindService(intent, serverServiceConnection, Context.BIND_AUTO_CREATE);
+	}
+	
 	public void closeApp() {
 		Logger.e(TAG, "Close App");
 		if (handlerThread != null) {
@@ -87,9 +108,9 @@ public class App extends Application {
 			handlerThread = null;
 		}
 		eventHandler = null;
-		if (upnpService != null) {
+		if (upnpService != null)
 			unbindService(upnpServiceConnection);
-			upnpService = null;
-		}
+		if (serverService != null)
+			unbindService(serverServiceConnection);
 	}
 }
