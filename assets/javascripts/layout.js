@@ -60,24 +60,23 @@
     // addPlayer
     function addPlayer(data) {
         console.log(data);
-        var avatar,
+        var user = JSON.parse(data),
+            avatar,
             name,
             win,
             lose,
             f_id;
 
-            f_id = data.facebook_id;
-            avatar = data.facebook_avatar;
-            name = data.facebook_name;
-            win = data.win;
-            lose = data.lose;
+            f_id = user.facebook_id;
+            avatar = user.facebook_avatar;
+            name = user.facebook_name;
+            win = user.win;
+            lose = user.lose;
             $('.avatar:eq(' + n + ') img').attr('src', avatar).parent('.avatar').attr('id', f_id);
             $('.name:eq(' + n + ')').html(name);
             $('.rank:eq(' + n + ')').html(win + ' Win | ' + lose + ' Lose');
             if (n === 3) {
-                // setTimeout(function () {
-                    finishAdd();
-                // }, 10000);
+                finishAdd();
             }
             n++;
     }
