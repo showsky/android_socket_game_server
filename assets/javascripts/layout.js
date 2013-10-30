@@ -44,7 +44,6 @@
             count = 3;
         rec = setInterval(
             function () {
-                // body...
                 console.log('count: ' + count);
                 $('.reciprocal').html(count);
                 if (count === 0) {
@@ -88,7 +87,7 @@
         $('#player').removeClass('hide');
         $('.ans_bg').removeClass('hide');
         $('.loading').addClass('hide');
-        $('.attachment').remove();
+        // stop music
     }
 
     // showQuestion and begin 3210 call start
@@ -107,7 +106,7 @@
         console.log("QUESTION:\n"+data);
         q = question.question;
         a_array = question.options;
-        $('.question_area').html(q);
+        $('#player img').attr('src', q);
         for (x in a_array) {
             $('.ans:eq(' + n + ')').html(a_array[x]);
             n++;
@@ -116,34 +115,27 @@
     }
 
     // selectAnswerer
-    function selectAnswerer(fbid) {
+    function selectAnswerer(data) {
         // body...
         console.log(fbid);
+        var fbid = JSON.parse(data);
         $('.avatar').addClass('dark');
         $('#' + fbid + '').removeClass('dark');
         fail_id = fbid;
     }
 
     // result
-    function result(data) {
-        // body...
+    function showResult(data) {
+        var result = JSON.parse(data);
         if (data.status === 'ok') {
             // right
             // win UI
-            $('.ans:eq(' + data.answer + ')').addClass('correct');
+            $('.ans:eq(' + result.answer + ')').addClass('correct');
             // play music
-            $('body').append(
-                '<audio class="win" autoplay>' +
-                    '<source src="ff_win.mp3" type="audio/mpeg">' +
-                '</audio>'
-            );
-            setTimeout(function () {
-                $('.win').remove();
-            }, 5000);
         } else {
             // fail
             // update UI(fail user dark)
-            $('.hexagonal_ans:eq(' + data.answer + ')').addClass('dark');
+            $('.hexagonal_ans:eq(' + result.answer + ')').addClass('dark');
             $('.avatar').removeClass('dark');
             $('#' + fail_id + '').addClass('dark');
             reciprocal();
