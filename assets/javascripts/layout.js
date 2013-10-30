@@ -6,7 +6,6 @@
  * @version $Id$
  */
 
-$(function () {
     // static data
     var profile = {
             'facebook_id': '123456',
@@ -99,14 +98,16 @@ $(function () {
         $('.hexagonal_ans').removeClass('dark');
         $('.ans').removeClass('correct');
         $('.avatar').removeClass('dark');
-        console.log(data);
 
         var n = 0,
+            question,
             x,
             q,
             a_array;
-        q = data.question_lib.question;
-        a_array = data.question_lib.options;
+        question = JSON.parse(data);
+        console.log("QUESTION:\n"+data);
+        q = question.question;
+        a_array = question.options;
         $('.question_area').html(q);
         for (x in a_array) {
             $('.ans:eq(' + n + ')').html(a_array[x]);
@@ -166,7 +167,6 @@ $(function () {
     //     result(ok);
     // }, 10000);
 
-});
 
 
 
