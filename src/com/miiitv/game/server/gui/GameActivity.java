@@ -24,10 +24,10 @@ import com.miiitv.game.server.Api;
 import com.miiitv.game.server.Logger;
 
 public class GameActivity extends Activity implements RankListener {
-	private final static String	TAG			= "Game";
-	private final static String	GAME		= "game";
-	private final static String	OK			= "ok";
-	private final static String	FAIL		= "fail";
+	private final static String	TAG		= "Game";
+	private final static String	GAME	= "game";
+	private final static String	OK		= "ok";
+	private final static String	FAIL	= "fail";
 	private Api					api;
 	private Map<String, Player>	players;
 	private String				_answer;
@@ -35,6 +35,7 @@ public class GameActivity extends Activity implements RankListener {
 	private WebView				wv;
 	private WebViewClient		mWebViewClient;
 	private WebChromeClient		mWebChromeClient;
+	private Callbacks			dummyCallbacks; //TODO remove it
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,17 +44,17 @@ public class GameActivity extends Activity implements RankListener {
 		init();
 
 		join("jasonni1231", "BIG", "87", "69");
-		join("jasonni1231", "BIG", "87", "69");
-		join("jasonni1231", "BIG", "87", "69");
-		join("jasonni1231", "BIG", "87", "69");
+		join("showskytw", "BIG", "87", "69");
+		join("tom", "BIG", "87", "69");
+		join("jason", "BIG", "87", "69");
 
 		wv = (WebView) findViewById(R.id.game);
 		wv.setWebChromeClient(mWebChromeClient);
 		wv.setWebViewClient(mWebViewClient);
 		wv.getSettings().setJavaScriptEnabled(true);
 		wv.addJavascriptInterface(new GameStart(), GAME);
-//		wv.loadUrl("file:///android_asset/example.html");
-        wv.loadUrl("file:///android_asset/layout.html");
+		// wv.loadUrl("file:///android_asset/example.html");
+		wv.loadUrl("file:///android_asset/layout.html");
 	}
 
 	private void init() {
@@ -77,6 +78,17 @@ public class GameActivity extends Activity implements RankListener {
 				}
 			}
 		};
+
+		dummyCallbacks = new Callbacks() {
+			@Override
+			public void gameStart() {
+				selectAnswerer("jasonni1231");
+			}
+		};
+	}
+
+	public interface Callbacks {
+		public void gameStart();
 	}
 
 	@Override
@@ -85,16 +97,20 @@ public class GameActivity extends Activity implements RankListener {
 			return;
 		}
 		new Avatar().execute(fbId, fbName, win, lose);
-
-		
 	}
 
 	private class GameStart {
 
 		@JavascriptInterface
 		public void start() {
-			Toast.makeText(mContext, "Game Start", Toast.LENGTH_LONG).show();
-			selectAnswerer("Jason");
+			Toast.makeText(mContext, "Game Start", Toast.LENGTH_SHORT).show();
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					dummyCallbacks.gameStart();
+				}
+			});
 		}
 	}
 
@@ -108,6 +124,7 @@ public class GameActivity extends Activity implements RankListener {
 			return;
 		}
 		wv.loadUrl("javascript:selectAnswerer('" + fbId + "');");
+
 	}
 
 	public void matchAnswer(String fbId, String questionId, String answer) {
@@ -152,7 +169,8 @@ public class GameActivity extends Activity implements RankListener {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			if (result) {
-//				wv.loadUrl("javascript:addPlayer('" + player.toString() + "');");
+				// wv.loadUrl("javascript:addPlayer('" + player.toString() +
+				// "');");
 			}
 		}
 	}
@@ -184,7 +202,7 @@ public class GameActivity extends Activity implements RankListener {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			if (result) {
-				
+
 				wv.loadUrl("javascript:addPlayer('" + player.toJSONString() + "');");
 				Logger.d(TAG, String.valueOf(players.keySet().size()));
 				if (players.size() == 4) {
