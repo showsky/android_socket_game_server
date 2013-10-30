@@ -693,6 +693,28 @@ img {
   margin: 0 auto;
 }
 /* line 486, ../sass/layout.scss */
+.con .banner {
+  position: absolute;
+  top: 60px;
+  width: 100%;
+}
+/* line 493, ../sass/layout.scss */
+.con .banner .hexagonal_top {
+  top: -30px;
+}
+/* line 496, ../sass/layout.scss */
+.con .banner .hexagonal_bottom {
+  top: 30px;
+}
+/* line 499, ../sass/layout.scss */
+.con .banner .hexagonal_left {
+  left: 240px;
+}
+/* line 502, ../sass/layout.scss */
+.con .banner .hexagonal_right {
+  right: 240px;
+}
+/* line 506, ../sass/layout.scss */
 .con #player {
   position: absolute;
   top: 50%;
@@ -701,14 +723,14 @@ img {
   margin-left: -240px;
   background: black;
 }
-/* line 493, ../sass/layout.scss */
+/* line 513, ../sass/layout.scss */
 .con #player .img_corner {
   position: absolute;
   height: 30px;
   width: 15px;
   background: #ff8800;
 }
-/* line 499, ../sass/layout.scss */
+/* line 519, ../sass/layout.scss */
 .con #player .d-30 {
   -webkit-transform: skew(-30deg, 0);
   -moz-transform: skew(-30deg, 0);
@@ -716,7 +738,7 @@ img {
   -o-transform: skew(-30deg, 0);
   transform: skew(-30deg, 0);
 }
-/* line 502, ../sass/layout.scss */
+/* line 522, ../sass/layout.scss */
 .con #player .d_30 {
   -webkit-transform: skew(30deg, 0);
   -moz-transform: skew(30deg, 0);
@@ -724,23 +746,23 @@ img {
   -o-transform: skew(30deg, 0);
   transform: skew(30deg, 0);
 }
-/* line 505, ../sass/layout.scss */
+/* line 525, ../sass/layout.scss */
 .con #player .img_corner_top {
   top: -5px;
 }
-/* line 508, ../sass/layout.scss */
+/* line 528, ../sass/layout.scss */
 .con #player .img_corner_bottom {
   bottom: -3px;
 }
-/* line 511, ../sass/layout.scss */
+/* line 531, ../sass/layout.scss */
 .con #player .img_corner_left {
   left: -8px;
 }
-/* line 514, ../sass/layout.scss */
+/* line 534, ../sass/layout.scss */
 .con #player .img_corner_right {
   right: -8px;
 }
-/* line 518, ../sass/layout.scss */
+/* line 538, ../sass/layout.scss */
 .con .question_bg {
   position: absolute;
   top: 50%;
@@ -748,7 +770,7 @@ img {
   width: 100%;
   margin-top: -30px;
 }
-/* line 525, ../sass/layout.scss */
+/* line 545, ../sass/layout.scss */
 .con .ans_bg {
   position: absolute;
   bottom: 10px;
@@ -756,7 +778,7 @@ img {
   height: 170px;
   font-size: 28px;
 }
-/* line 531, ../sass/layout.scss */
+/* line 551, ../sass/layout.scss */
 .con .ans_bg .ans {
   position: absolute;
   width: 240px;
@@ -765,38 +787,38 @@ img {
   white-space: nowrap;
   text-align: center;
 }
-/* line 539, ../sass/layout.scss */
+/* line 559, ../sass/layout.scss */
 .con .ans_bg .top {
   top: 20px;
 }
-/* line 542, ../sass/layout.scss */
+/* line 562, ../sass/layout.scss */
 .con .ans_bg .bottom {
   bottom: 10px;
 }
-/* line 545, ../sass/layout.scss */
+/* line 565, ../sass/layout.scss */
 .con .ans_bg .left {
   left: 135px;
 }
-/* line 548, ../sass/layout.scss */
+/* line 568, ../sass/layout.scss */
 .con .ans_bg .right {
   right: 135px;
 }
-/* line 551, ../sass/layout.scss */
+/* line 571, ../sass/layout.scss */
 .con .ans_bg .ans_top {
   top: 35px;
 }
-/* line 554, ../sass/layout.scss */
+/* line 574, ../sass/layout.scss */
 .con .ans_bg .ans_bottom {
   bottom: 25px;
 }
-/* line 557, ../sass/layout.scss */
+/* line 577, ../sass/layout.scss */
 .con .ans_bg .reciprocal_bg {
   bottom: 50px;
   left: 50%;
   margin-left: -15px;
   text-align: center;
 }
-/* line 562, ../sass/layout.scss */
+/* line 582, ../sass/layout.scss */
 .con .ans_bg .reciprocal_bg .reciprocal {
   color: #ff0000;
   font-size: 50px;
