@@ -43,6 +43,9 @@ public class GameActivity extends Activity implements RankListener {
 		init();
 
 		join("jasonni1231", "BIG", "87", "69");
+		join("jasonni1231", "BIG", "87", "69");
+		join("jasonni1231", "BIG", "87", "69");
+		join("jasonni1231", "BIG", "87", "69");
 
 		wv = (WebView) findViewById(R.id.game);
 		wv.setWebChromeClient(mWebChromeClient);
@@ -83,9 +86,7 @@ public class GameActivity extends Activity implements RankListener {
 		}
 		new Avatar().execute(fbId, fbName, win, lose);
 
-		if (players.size() == 4) {
-			new Play().execute();
-		}
+		
 	}
 
 	private class GameStart {
@@ -183,7 +184,12 @@ public class GameActivity extends Activity implements RankListener {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			if (result) {
+				
 				wv.loadUrl("javascript:addPlayer('" + player.toJSONString() + "');");
+				Logger.d(TAG, String.valueOf(players.keySet().size()));
+				if (players.size() == 4) {
+					new Play().execute();
+				}
 			}
 		}
 	}
