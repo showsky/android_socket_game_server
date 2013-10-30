@@ -21,7 +21,7 @@ public class GameActivity extends Activity {
 		wv.setWebViewClient(mWebViewClient);
 		wv.getSettings().setJavaScriptEnabled(true);
 //		wv.loadUrl("http://www.google.com");
-		wv.loadUrl("file:///android_asset/example.html");
+		wv.loadUrl("file:///android_asset/layout.html");
 	}
 
 	WebViewClient mWebViewClient = new WebViewClient() {
