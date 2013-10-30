@@ -77,9 +77,9 @@ $(function () {
             $('.name:eq(' + n + ')').html(name);
             $('.rank:eq(' + n + ')').html(win + ' Win | ' + lose + ' Lose');
             if (n === 3) {
-                setTimeout(function () {
+                // setTimeout(function () {
                     finishAdd();
-                }, 10000);
+                // }, 10000);
             }
             n++;
     }
@@ -146,17 +146,17 @@ $(function () {
      * TEST Area
      * @return {[type]} [description]
      */
-    addPlayer(profile);
-    addPlayer(profile);
-    addPlayer(profile);
-    addPlayer(profile);
-    selectAnswerer(123456);
-    setTimeout(function () {
-        showQuestion(question);
-    }, 5000);
-    setTimeout(function () {
-        result(ok);
-    }, 10000);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // selectAnswerer(123456);
+    // setTimeout(function () {
+    //     showQuestion(question);
+    // }, 5000);
+    // setTimeout(function () {
+    //     result(ok);
+    // }, 10000);
 
 });
 
@@ -261,39 +261,3 @@ if (document.getElementById('player2')) {
         });
     }
 }
-
-	// <script type='text/javascript'>
-		// function showMsg() {
-			// alert('This is alert dialog');
-		// }
-
-        // function showQuestion (question) {
-            // if (question) {
-                // document.getElementById('question_section').innerHTML = question;
-                // setTimeout(function () {
-                    // window.game.start();
-                // }, 3000);
-            // }
-        // }
-
-        // function addPlayer (player) {
-            // if (player) {
-                // var user = JSON.parse(player);
-                // document.getElementById('player1').setAttribute('src', user.avatar);
-                // document.getElementById('player1').setAttribute('alt', user.id);
-            // }
-        // }
-
-        // function selectAnswerer (fbId) {
-            // alert('answer : ' + fbId);
-        // }
-
-        // function showResult (result) {
-            // if (result === 'true') {
-                // alert('O');
-            // } else {
-                // alert('X');
-                // window.game.start();
-            // }
-        // }
-	// </script>
