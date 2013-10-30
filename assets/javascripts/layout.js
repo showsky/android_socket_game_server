@@ -6,20 +6,20 @@
  * @version $Id$
  */
 
-$(function () {
+// $(function () {
     // static data
     var profile = {
-            'user': {
-                'facebook_id': '123456',
-                'avatar': 'url',
-                'name': 'user_name1',
-                'rank': 'win:0,lose:0,score:0'
-            }
+            'facebook_id': '123456',
+            'facebook_avatar': 'url',
+            'facebook_name': 'user_name1',
+            'win': 0,
+            'lose': 0
         },
         question = {
             'question_lib': {
                 'question': 'QQ',
-                'answer': {
+                'answer': 'a_1',
+                'options': {
                     'a_1': 'ans_1',
                     'a_2': 'ans_2',
                     'a_3': 'ans_3',
@@ -33,7 +33,7 @@ $(function () {
         },
         ok = {
             status: 'ok',
-            ok_ans: 1
+            answer: 1
         };
     // static data end
 
@@ -41,17 +41,17 @@ $(function () {
         fail_id;
 
     function reciprocal() {
-        var reciprocal,
+        var rec,
             count = 3;
-        reciprocal = setInterval(
+        rec = setInterval(
             function () {
                 // body...
                 console.log('count: ' + count);
                 $('.reciprocal').html(count);
                 if (count === 0) {
                     // $('.reciprocal').html('');
-                    // android.start();
-                    clearInterval(reciprocal);
+                    window.game.start();
+                    clearInterval(rec);
                 }
                 count--;
             },
@@ -62,18 +62,24 @@ $(function () {
     // addPlayer
     function addPlayer(data) {
         console.log(data);
-        var avatar,
+        var user = JSON.parse(data),
+            avatar,
             name,
-            rank,
+            win,
+            lose,
             f_id;
 
-            avatar = data.user.avatar;
-            name = data.user.name;
-            rank = data.user.rank;
-            f_id = data.user.facebook_id;
+            f_id = user.facebook_id;
+            avatar = user.facebook_avatar;
+            name = user.facebook_name;
+            win = user.win;
+            lose = user.lose;
             $('.avatar:eq(' + n + ') img').attr('src', avatar).parent('.avatar').attr('id', f_id);
             $('.name:eq(' + n + ')').html(name);
-            $('.rank:eq(' + n + ')').html(rank);
+            $('.rank:eq(' + n + ')').html(win + ' Win | ' + lose + ' Lose');
+            if (n === 3) {
+                finishAdd();
+            }
             n++;
     }
 
@@ -86,19 +92,20 @@ $(function () {
         $('.loading').addClass('hide');
     }
 
-    // getQuestion and begin 3210 call start
-    function getQuestion(data) {
-        // body...
+    // showQuestion and begin 3210 call start
+    function showQuestion(data) {
+        // reset UI
         $('.hexagonal_ans').removeClass('dark');
         $('.ans').removeClass('correct');
         $('.avatar').removeClass('dark');
         console.log(data);
+
         var n = 0,
             x,
             q,
             a_array;
         q = data.question_lib.question;
-        a_array = data.question_lib.answer;
+        a_array = data.question_lib.options;
         $('.question_area').html(q);
         for (x in a_array) {
             $('.ans:eq(' + n + ')').html(a_array[x]);
@@ -107,13 +114,13 @@ $(function () {
         reciprocal();
     }
 
-    // select
-    function select(f_id) {
+    // selectAnswerer
+    function selectAnswerer(fbid) {
         // body...
-        console.log(f_id);
+        console.log(fbid);
         $('.avatar').addClass('dark');
-        $('#' + f_id + '').removeClass('dark');
-        fail_id = f_id;
+        $('#' + fbid + '').removeClass('dark');
+        fail_id = fbid;
     }
 
     // result
@@ -122,12 +129,12 @@ $(function () {
         if (data.status === 'ok') {
             // right
             // win UI
-            $('.ans:eq(' + data.ok_ans + ')').addClass('correct');
+            $('.ans:eq(' + data.answer + ')').addClass('correct');
             // play music
         } else {
             // fail
             // update UI(fail user dark)
-            $('.hexagonal_ans:eq(' + data.fail_ans + ')').addClass('dark');
+            $('.hexagonal_ans:eq(' + data.answer + ')').addClass('dark');
             $('.avatar').removeClass('dark');
             $('#' + fail_id + '').addClass('dark');
             reciprocal();
@@ -138,154 +145,118 @@ $(function () {
      * TEST Area
      * @return {[type]} [description]
      */
-    addPlayer(profile);
-    setTimeout(function () {
-        finishAdd();
-    },
-    3000);
-    select(123456);
-    setTimeout(function () {
-        getQuestion(question);
-    }, 5000);
-    setTimeout(function () {
-        result(ok);
-    }, 10000);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // selectAnswerer(123456);
+    // setTimeout(function () {
+    //     showQuestion(question);
+    // }, 5000);
+    // setTimeout(function () {
+    //     result(ok);
+    // }, 10000);
 
-});
+// });
 
 
-if (document.getElementById('player2')) {
-    // get youtube api
-    var tag = document.createElement('script'),
-        firstScriptTag = document.getElementsByTagName('script')[0];
-    tag.src = "https://www.youtube.com/iframe_api?client=181113669792.apps.googleusercontent.com&key=AIzaSyAqP-AGifepfLUe_XqZDbC75B3e4xYmVlk";
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    var playList = [],
-        playCount = 0,
-        player,
-        onPlayerStateChange,
-        value,
-        key;
+// if (document.getElementById('player2')) {
+//     // get youtube api
+//     var tag = document.createElement('script'),
+//         firstScriptTag = document.getElementsByTagName('script')[0];
+//     tag.src = "https://www.youtube.com/iframe_api?client=181113669792.apps.googleusercontent.com&key=AIzaSyAqP-AGifepfLUe_XqZDbC75B3e4xYmVlk";
+//     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    var video_ID = {
-        'a_0': 'f-FOf8RRq-U',
-        'a_1': '7wvNwOPprBE',
-        'a_2': 'LyMjaZE0GE8',
-        'a_3': 'xWTiOqJqkk0',
-        'a_4': 'F2uX6ByoW7A',
-        'a_5': 'LWmVK8K2QhM',
-        'a_6': 'mTSuiGubCHE'
-    };
+//     var playList = [],
+//         playCount = 0,
+//         player,
+//         onPlayerStateChange,
+//         value,
+//         key;
 
-    // playList array
-    for (key in video_ID) {
-        value = video_ID[key];
-        console.log(value);
-        playList.push(value);
-    }
+//     var video_ID = {
+//         'a_0': 'f-FOf8RRq-U',
+//         'a_1': '7wvNwOPprBE',
+//         'a_2': 'LyMjaZE0GE8',
+//         'a_3': 'xWTiOqJqkk0',
+//         'a_4': 'F2uX6ByoW7A',
+//         'a_5': 'LWmVK8K2QhM',
+//         'a_6': 'mTSuiGubCHE'
+//     };
 
-    function playChannel() {
-        // init player
-        player = new YT.Player('player', {
-            height: '350',
-            width: '480',
-            videoId: playList[0],
-            playerVars: {
-                rel: 1,
-                autoplay: 0,
-                disablekb: 0,
-                showsearch: 0,
-                showinfo: 0,
-                controls: 0,
-                wmode: 'opaque',
-                hd: 1,
-                iv_load_policy: 3,
-                start: 60
-            },
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
+//     // playList array
+//     for (key in video_ID) {
+//         value = video_ID[key];
+//         console.log(value);
+//         playList.push(value);
+//     }
 
-        // play video
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-    }
+//     function playChannel() {
+//         // init player
+//         player = new YT.Player('player', {
+//             height: '350',
+//             width: '480',
+//             videoId: playList[0],
+//             playerVars: {
+//                 rel: 1,
+//                 autoplay: 0,
+//                 disablekb: 0,
+//                 showsearch: 0,
+//                 showinfo: 0,
+//                 controls: 0,
+//                 wmode: 'opaque',
+//                 hd: 1,
+//                 iv_load_policy: 3,
+//                 start: 60
+//             },
+//             events: {
+//                 'onReady': onPlayerReady,
+//                 'onStateChange': onPlayerStateChange
+//             }
+//         });
 
-    // play list loop
-    function onPlayerStateChange(event) {
-        console.log(event);
-        if (event.data === YT.PlayerState.PLAYING) {
-            setTimeout(
-                function () {
-                    player.pauseVideo();
-                },
-                10000
-            );
-        }
-        if (event.data === 0) {
-            console.log('Next');
-            playCount++;
-            if (playCount > (playList.length - 1)) {
-                playCount = 0;
-            }
-            player.loadVideoById(playList[playCount]);
-            player.playVideo();
-        }
-    }
+//         // play video
+//         function onPlayerReady(event) {
+//             event.target.playVideo();
+//         }
+//     }
 
-    function onYouTubeIframeAPIReady() {
-        $(function () {
-            console.log('jQuery');
-            playChannel();
-            $('button').on('click', function () {
-                playList = ['DLFPqJedFuw', 'MmHkPXG4Td4'];
-                // update play list
-                // playList =
-                player.loadVideoById(playList[0]);
-                onPlayerStateChange();
+//     // play list loop
+//     function onPlayerStateChange(event) {
+//         console.log(event);
+//         if (event.data === YT.PlayerState.PLAYING) {
+//             setTimeout(
+//                 function () {
+//                     player.pauseVideo();
+//                 },
+//                 10000
+//             );
+//         }
+//         if (event.data === 0) {
+//             console.log('Next');
+//             playCount++;
+//             if (playCount > (playList.length - 1)) {
+//                 playCount = 0;
+//             }
+//             player.loadVideoById(playList[playCount]);
+//             player.playVideo();
+//         }
+//     }
 
-            });
+//     function onYouTubeIframeAPIReady() {
+//         $(function () {
+//             console.log('jQuery');
+//             playChannel();
+//             $('button').on('click', function () {
+//                 playList = ['DLFPqJedFuw', 'MmHkPXG4Td4'];
+//                 // update play list
+//                 // playList =
+//                 player.loadVideoById(playList[0]);
+//                 onPlayerStateChange();
 
-        });
-    }
-}
+//             });
 
-	// <script type='text/javascript'>
-		// function showMsg() {
-			// alert('This is alert dialog');
-		// }
-
-        // function showQuestion (question) {
-            // if (question) {
-                // document.getElementById('question_section').innerHTML = question;
-                // setTimeout(function () {
-                    // window.game.start();
-                // }, 3000);
-            // }
-        // }
-
-        // function addPlayer (player) {
-            // if (player) {
-                // var user = JSON.parse(player);
-                // document.getElementById('player1').setAttribute('src', user.avatar);
-                // document.getElementById('player1').setAttribute('alt', user.id);
-            // }
-        // }
-
-        // function selectAnswerer (fbId) {
-            // alert('answer : ' + fbId);
-        // }
-
-        // function showResult (result) {
-            // if (result === 'true') {
-                // alert('O');
-            // } else {
-                // alert('X');
-                // window.game.start();
-            // }
-        // }
-	// </script>
+//         });
+//     }
+// }
