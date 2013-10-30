@@ -1,0 +1,804 @@
+/**
+ *
+ * @authors Ted Shiu (tedshd@gmail.com)
+ * @date    2013-10-22 22:52:41
+ * @version $Id$
+ */
+/* line 17, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../../../Applications/Fire.app/Contents/Resources/lib/ruby/compass_0.12/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 15, ../sass/layout.scss */
+body, html {
+  width: 100%;
+}
+
+/* line 20, ../sass/layout.scss */
+body {
+  position: absolute;
+  background: black;
+  color: #fff;
+}
+
+/* line 25, ../sass/layout.scss */
+img {
+  border: 0;
+}
+
+/* line 28, ../sass/layout.scss */
+.hide {
+  display: none;
+}
+
+/* line 31, ../sass/layout.scss */
+.dark {
+  opacity: 0.5;
+}
+
+/* line 34, ../sass/layout.scss */
+.correct {
+  color: #0088ff;
+}
+
+/**
+ * loading
+ */
+@-webkit-keyframes glow {
+  /* line 58, ../sass/layout.scss */
+  0% {
+    opacity: 0.1;
+  }
+
+  /* line 61, ../sass/layout.scss */
+  50% {
+    opacity: 1;
+  }
+
+  /* line 64, ../sass/layout.scss */
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@-moz-keyframes glow {
+  /* line 58, ../sass/layout.scss */
+  0% {
+    opacity: 0.1;
+  }
+
+  /* line 61, ../sass/layout.scss */
+  50% {
+    opacity: 1;
+  }
+
+  /* line 64, ../sass/layout.scss */
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@-ms-keyframes glow {
+  /* line 58, ../sass/layout.scss */
+  0% {
+    opacity: 0.1;
+  }
+
+  /* line 61, ../sass/layout.scss */
+  50% {
+    opacity: 1;
+  }
+
+  /* line 64, ../sass/layout.scss */
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes glow {
+  /* line 58, ../sass/layout.scss */
+  0% {
+    opacity: 0.1;
+  }
+
+  /* line 61, ../sass/layout.scss */
+  50% {
+    opacity: 1;
+  }
+
+  /* line 64, ../sass/layout.scss */
+  100% {
+    opacity: 0.1;
+  }
+}
+
+/* line 68, ../sass/layout.scss */
+.glow {
+  -webkit-animation-name: glow;
+  -moz-animation-name: glow;
+  -ms-animation-name: glow;
+  -o-animation-name: glow;
+  animation-name: glow;
+  -webkit-animation-duration: 1.5s;
+  -moz-animation-duration: 1.5s;
+  -ms-animation-duration: 1.5s;
+  -o-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -ms-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+/* line 77, ../sass/layout.scss */
+.loading {
+  position: absolute;
+  width: 640px;
+  height: 280px;
+  top: 50%;
+  left: 50%;
+  margin-top: -140px;
+  margin-left: -320px;
+  overflow: hidden;
+  background: black;
+  border: solid red;
+  border-width: 20px 0;
+  text-align: center;
+  font-size: 130px;
+  color: red;
+}
+/* line 92, ../sass/layout.scss */
+.loading:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: solid black;
+  border-width: 10px 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 103, ../sass/layout.scss */
+.loading .loading_bg {
+  position: absolute;
+  left: 50%;
+  margin-left: -360px;
+  width: 710px;
+}
+/* line 108, ../sass/layout.scss */
+.loading .loading_bg .col {
+  display: inline-block;
+  height: 280px;
+  width: 40px;
+  background: red;
+  -webkit-transform: skew(-30deg, 0);
+  -moz-transform: skew(-30deg, 0);
+  -ms-transform: skew(-30deg, 0);
+  -o-transform: skew(-30deg, 0);
+  transform: skew(-30deg, 0);
+}
+/* line 116, ../sass/layout.scss */
+.loading .text {
+  position: absolute;
+  padding: 20px;
+  top: 50%;
+  left: 50%;
+  margin-top: -85px;
+  margin-left: -215px;
+  background: #000;
+}
+
+/**
+ *         __                                            __
+ *      / /_  ___  _  ______ _____ _____  ____  ____ _/ /
+ *     / __ \/ _ \| |/_/ __ `/ __ `/ __ \/ __ \/ __ `/ /
+ *    / / / /  __/>  </ /_/ / /_/ / /_/ / / / / /_/ / /
+ *   /_/ /_/\___/_/|_|\__,_/\__, /\____/_/ /_/\__,_/_/
+ *                         /____/
+ */
+/* line 139, ../sass/layout.scss */
+.hexagonal {
+  position: absolute;
+  margin: 0 auto;
+  width: 30px;
+  height: 60px;
+  background: #ff8800;
+}
+/* line 145, ../sass/layout.scss */
+.hexagonal:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -15px;
+  width: 0;
+  height: 0;
+  border-top: solid 30px transparent;
+  border-bottom: solid 30px transparent;
+  border-left: 0;
+  border-right: solid 15px #ff8800;
+}
+/* line 157, ../sass/layout.scss */
+.hexagonal:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -15px;
+  width: 0;
+  height: 0;
+  border-top: solid 30px transparent;
+  border-bottom: solid 30px transparent;
+  border-left: solid 15px #ff8800;
+  border-right: 0;
+}
+
+/* line 170, ../sass/layout.scss */
+.hexagonal_1 {
+  width: 840px;
+}
+
+/* line 173, ../sass/layout.scss */
+.hexagonal_2 {
+  width: 720px;
+  left: 50%;
+  margin-left: -360px;
+}
+
+/* line 178, ../sass/layout.scss */
+.hexagonal_2_up {
+  top: -30px;
+}
+
+/* line 181, ../sass/layout.scss */
+.hexagonal_2_down {
+  top: 30px;
+}
+
+/* line 184, ../sass/layout.scss */
+.hexagonal_3 {
+  width: 600px;
+  left: 50%;
+  margin-left: -300px;
+}
+
+/* line 189, ../sass/layout.scss */
+.hexagonal_3_up {
+  top: -60px;
+}
+
+/* line 192, ../sass/layout.scss */
+.hexagonal_3_down {
+  top: 60px;
+}
+
+/* line 195, ../sass/layout.scss */
+.hexagonal_4_up {
+  top: -120px;
+}
+
+/* line 198, ../sass/layout.scss */
+.hexagonal_4_down {
+  top: 120px;
+}
+
+/* line 201, ../sass/layout.scss */
+.hexagonal_5 {
+  width: 480px;
+  left: 50%;
+  margin-left: -240px;
+}
+
+/* line 206, ../sass/layout.scss */
+.hexagonal_5_up {
+  top: -150px;
+}
+
+/* line 209, ../sass/layout.scss */
+.hexagonal_5_down {
+  top: 150px;
+}
+
+/* line 212, ../sass/layout.scss */
+.hexagonal_6_up {
+  top: -180px;
+  left: 50%;
+  margin-left: -15px;
+}
+
+/* line 217, ../sass/layout.scss */
+.hexagonal_6_down {
+  top: 180px;
+  left: 50%;
+  margin-left: -15px;
+}
+
+/* line 222, ../sass/layout.scss */
+.hexagonal_ans {
+  width: 240px;
+}
+
+/**
+ *                                                __        __
+ *     _________  _________  ___  _____   _____/ /___  __/ /__
+ *    / ___/ __ \/ ___/ __ \/ _ \/ ___/  / ___/ __/ / / / / _ \
+ *   / /__/ /_/ / /  / / / /  __/ /     (__  ) /_/ /_/ / /  __/
+ *   \___/\____/_/  /_/ /_/\___/_/     /____/\__/\__, /_/\___/
+ *                                              /____/
+ */
+/* line 235, ../sass/layout.scss */
+.corner {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  margin: 10px;
+}
+/* line 241, ../sass/layout.scss */
+.corner .avatar {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: #ff8800;
+}
+/* line 246, ../sass/layout.scss */
+.corner .avatar img {
+  border: 0;
+  padding: 15px;
+}
+
+/* line 253, ../sass/layout.scss */
+#corner_1 {
+  top: 0;
+  left: 0;
+}
+
+/* line 257, ../sass/layout.scss */
+#corner_2 {
+  bottom: 0;
+  left: 0;
+}
+
+/* line 261, ../sass/layout.scss */
+#corner_3 {
+  top: 0;
+  right: 0;
+}
+
+/* line 265, ../sass/layout.scss */
+#corner_4 {
+  bottom: 0;
+  right: 0;
+}
+
+/* line 270, ../sass/layout.scss */
+.avatar_1:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 0;
+  border-bottom: solid 30px black;
+  border-left: solid 15px transparent;
+  border-right: 0;
+}
+
+/* line 283, ../sass/layout.scss */
+.avatar_2 {
+  bottom: 0;
+}
+/* line 285, ../sass/layout.scss */
+.avatar_2:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-bottom: 0;
+  border-top: solid 30px black;
+  border-left: solid 15px transparent;
+  border-right: 0;
+}
+
+/* line 298, ../sass/layout.scss */
+.avatar_3 {
+  right: 0;
+}
+/* line 300, ../sass/layout.scss */
+.avatar_3:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 0;
+  border-bottom: solid 30px black;
+  border-right: solid 15px transparent;
+  border-left: 0;
+}
+
+/* line 313, ../sass/layout.scss */
+.avatar_4 {
+  right: 0;
+  bottom: 0;
+}
+/* line 316, ../sass/layout.scss */
+.avatar_4:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-bottom: 0;
+  border-top: solid 30px black;
+  border-right: solid 15px transparent;
+  border-left: 0;
+}
+
+/* line 332, ../sass/layout.scss */
+.hex_area {
+  position: absolute;
+  width: 95px;
+  height: 93px;
+}
+/* line 337, ../sass/layout.scss */
+.hex_area .left_top_left {
+  top: 0;
+  left: 0;
+}
+/* line 341, ../sass/layout.scss */
+.hex_area .left_bottom_left {
+  top: 65px;
+  left: 0;
+}
+/* line 345, ../sass/layout.scss */
+.hex_area .left_right {
+  top: 33px;
+  left: 50px;
+}
+/* line 349, ../sass/layout.scss */
+.hex_area .right_top_right {
+  top: 0;
+  right: 0;
+}
+/* line 353, ../sass/layout.scss */
+.hex_area .right_bottom_right {
+  top: 65px;
+  right: 0;
+}
+/* line 357, ../sass/layout.scss */
+.hex_area .right_left {
+  top: 33px;
+  right: 50px;
+}
+/* line 361, ../sass/layout.scss */
+.hex_area .right_ans, .hex_area .shake_count {
+  position: absolute;
+  font-size: 28px;
+}
+
+/* line 367, ../sass/layout.scss */
+#hex_1 {
+  bottom: 34px;
+  right: 1px;
+}
+/* line 370, ../sass/layout.scss */
+#hex_1 .right_ans {
+  top: 14px;
+  left: -6px;
+}
+/* line 374, ../sass/layout.scss */
+#hex_1 .shake_count {
+  bottom: 14px;
+  right: 11px;
+}
+
+/* line 379, ../sass/layout.scss */
+#hex_2 {
+  top: 2px;
+  right: 1px;
+}
+/* line 382, ../sass/layout.scss */
+#hex_2 .right_ans {
+  bottom: -16px;
+  left: -6px;
+}
+/* line 386, ../sass/layout.scss */
+#hex_2 .shake_count {
+  bottom: 14px;
+  right: 11px;
+}
+
+/* line 391, ../sass/layout.scss */
+#hex_3 {
+  bottom: 34px;
+  left: 61x;
+}
+/* line 394, ../sass/layout.scss */
+#hex_3 .right_ans {
+  top: 14px;
+  right: -6px;
+}
+/* line 398, ../sass/layout.scss */
+#hex_3 .shake_count {
+  bottom: 14px;
+  left: 8px;
+}
+
+/* line 403, ../sass/layout.scss */
+#hex_4 {
+  top: 2px;
+  left: 1px;
+}
+/* line 406, ../sass/layout.scss */
+#hex_4 .right_ans {
+  bottom: -16px;
+  right: -6px;
+}
+/* line 410, ../sass/layout.scss */
+#hex_4 .shake_count {
+  bottom: 14px;
+  left: 8px;
+}
+
+/**
+ *                           _____ __
+ *       ____  _________  / __(_) /__
+ *      / __ \/ ___/ __ \/ /_/ / / _ \
+ *     / /_/ / /  / /_/ / __/ / /  __/
+ *    / .___/_/   \____/_/ /_/_/\___/
+ *   /_/
+ */
+/* line 425, ../sass/layout.scss */
+.profile {
+  position: absolute;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 240px;
+  font-size: 28px;
+}
+/* line 433, ../sass/layout.scss */
+.profile .horizon {
+  width: 105px;
+  border: solid 3px #ff8800;
+}
+/* line 437, ../sass/layout.scss */
+.profile .name, .profile .rank {
+  padding: 6px 0;
+}
+/* line 440, ../sass/layout.scss */
+.profile .name {
+  width: 185px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* line 447, ../sass/layout.scss */
+#profile_1 {
+  bottom: 10px;
+}
+
+/* line 450, ../sass/layout.scss */
+#profile_2 {
+  top: 10px;
+}
+
+/* line 453, ../sass/layout.scss */
+#profile_3 {
+  bottom: 10px;
+  right: 0;
+  text-align: right;
+}
+/* line 457, ../sass/layout.scss */
+#profile_3 .name {
+  position: relative;
+  left: 55px;
+}
+/* line 461, ../sass/layout.scss */
+#profile_3 .horizon {
+  position: relative;
+  left: 125px;
+}
+
+/* line 466, ../sass/layout.scss */
+#profile_4 {
+  top: 10px;
+  right: 0;
+  text-align: right;
+}
+/* line 470, ../sass/layout.scss */
+#profile_4 .name {
+  position: relative;
+  left: 55px;
+}
+/* line 474, ../sass/layout.scss */
+#profile_4 .horizon {
+  position: relative;
+  left: 125px;
+}
+
+/* line 480, ../sass/layout.scss */
+.con {
+  position: relative;
+  width: 840px;
+  height: 720px;
+  margin: 0 auto;
+}
+/* line 486, ../sass/layout.scss */
+.con #player {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -175px;
+  margin-left: -240px;
+  background: black;
+}
+/* line 493, ../sass/layout.scss */
+.con #player .img_corner {
+  position: absolute;
+  height: 30px;
+  width: 15px;
+  background: #ff8800;
+}
+/* line 499, ../sass/layout.scss */
+.con #player .d-30 {
+  -webkit-transform: skew(-30deg, 0);
+  -moz-transform: skew(-30deg, 0);
+  -ms-transform: skew(-30deg, 0);
+  -o-transform: skew(-30deg, 0);
+  transform: skew(-30deg, 0);
+}
+/* line 502, ../sass/layout.scss */
+.con #player .d_30 {
+  -webkit-transform: skew(30deg, 0);
+  -moz-transform: skew(30deg, 0);
+  -ms-transform: skew(30deg, 0);
+  -o-transform: skew(30deg, 0);
+  transform: skew(30deg, 0);
+}
+/* line 505, ../sass/layout.scss */
+.con #player .img_corner_top {
+  top: -5px;
+}
+/* line 508, ../sass/layout.scss */
+.con #player .img_corner_bottom {
+  bottom: -3px;
+}
+/* line 511, ../sass/layout.scss */
+.con #player .img_corner_left {
+  left: -8px;
+}
+/* line 514, ../sass/layout.scss */
+.con #player .img_corner_right {
+  right: -8px;
+}
+/* line 518, ../sass/layout.scss */
+.con .question_bg {
+  position: absolute;
+  top: 50%;
+  height: 60px;
+  width: 100%;
+  margin-top: -30px;
+}
+/* line 525, ../sass/layout.scss */
+.con .ans_bg {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  height: 170px;
+  font-size: 28px;
+}
+/* line 531, ../sass/layout.scss */
+.con .ans_bg .ans {
+  position: absolute;
+  width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+/* line 539, ../sass/layout.scss */
+.con .ans_bg .top {
+  top: 20px;
+}
+/* line 542, ../sass/layout.scss */
+.con .ans_bg .bottom {
+  bottom: 10px;
+}
+/* line 545, ../sass/layout.scss */
+.con .ans_bg .left {
+  left: 135px;
+}
+/* line 548, ../sass/layout.scss */
+.con .ans_bg .right {
+  right: 135px;
+}
+/* line 551, ../sass/layout.scss */
+.con .ans_bg .ans_top {
+  top: 35px;
+}
+/* line 554, ../sass/layout.scss */
+.con .ans_bg .ans_bottom {
+  bottom: 25px;
+}
+/* line 557, ../sass/layout.scss */
+.con .ans_bg .reciprocal_bg {
+  bottom: 50px;
+  left: 50%;
+  margin-left: -15px;
+  text-align: center;
+}
+/* line 562, ../sass/layout.scss */
+.con .ans_bg .reciprocal_bg .reciprocal {
+  color: #ff0000;
+  font-size: 50px;
+  padding-top: 6px;
+}
