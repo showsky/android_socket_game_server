@@ -24,10 +24,11 @@ import com.miiitv.game.server.Api;
 import com.miiitv.game.server.Logger;
 
 public class GameActivity extends Activity implements RankListener {
-	private final static String	TAG		= "Game";
-	private final static String	GAME	= "game";
-	private final static String	OK		= "ok";
-	private final static String	FAIL	= "fail";
+	private final static String	TAG				= "Game";
+	private final static String	GAME			= "game";
+	private final static String	OK				= "ok";
+	private final static String	FAIL			= "fail";
+	private final static String	TEST_ACCOUNT	= "jasonni1231";
 	private Api					api;
 	private Map<String, Player>	players;
 	private String				_answer;
@@ -35,7 +36,8 @@ public class GameActivity extends Activity implements RankListener {
 	private WebView				wv;
 	private WebViewClient		mWebViewClient;
 	private WebChromeClient		mWebChromeClient;
-	private Callbacks			dummyCallbacks; //TODO remove it
+	private ClientCallbacks		dummyCallbacks;					// TODO
+																	// remove it
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,7 @@ public class GameActivity extends Activity implements RankListener {
 		setContentView(R.layout.game);
 		init();
 
-		join("jasonni1231", "BIG", "87", "69");
+		join(TEST_ACCOUNT, "BIG", "87", "69");
 		join("showskytw", "BIG", "87", "69");
 		join("tom", "BIG", "87", "69");
 		join("jason", "BIG", "87", "69");
@@ -79,15 +81,21 @@ public class GameActivity extends Activity implements RankListener {
 			}
 		};
 
-		dummyCallbacks = new Callbacks() {
+		dummyCallbacks = new ClientCallbacks() {
 			@Override
 			public void gameStart() {
-				selectAnswerer("jasonni1231");
+				try {
+					selectAnswerer(TEST_ACCOUNT);
+					Thread.sleep(3000);
+					matchAnswer(TEST_ACCOUNT, "6", "1");
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		};
 	}
 
-	public interface Callbacks {
+	public interface ClientCallbacks {
 		public void gameStart();
 	}
 
@@ -127,6 +135,7 @@ public class GameActivity extends Activity implements RankListener {
 
 	}
 
+	@Override
 	public void matchAnswer(String fbId, String questionId, String answer) {
 		boolean isCorrect = TextUtils.equals(_answer, answer);
 		String result = FAIL;

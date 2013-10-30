@@ -49,8 +49,7 @@ $(function () {
                 console.log('count: ' + count);
                 $('.reciprocal').html(count);
                 if (count === 0) {
-                    // $('.reciprocal').html('');
-                    // window.game.start();
+                    window.game.start();
                     clearInterval(rec);
                 }
                 count--;
