@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.miiicasa.game.bean.Player;
 import com.miiitv.game.R;
 import com.miiitv.game.server.Api;
+import com.miiitv.game.server.App;
+import com.miiitv.game.server.EventType;
 import com.miiitv.game.server.Logger;
 
 public class GameActivity extends Activity implements RankListener {
@@ -31,7 +33,7 @@ public class GameActivity extends Activity implements RankListener {
 	private final static String	TEST_ACCOUNT	= "jasonni1231";
 	private Api					api;
 	private Map<String, Player>	players;
-	private String				_answer;
+	private int				    _answer;
 	private Context				mContext;
 	private WebView				wv;
 	private WebViewClient		mWebViewClient;
@@ -45,10 +47,10 @@ public class GameActivity extends Activity implements RankListener {
 		setContentView(R.layout.game);
 		init();
 
-		join(TEST_ACCOUNT, "BIG", "87", "69");
-		join("showskytw", "BIG", "87", "69");
-		join("tom", "BIG", "87", "69");
-		join("jason", "BIG", "87", "69");
+		join(TEST_ACCOUNT, "BIG", 87, 69);
+		join("showskytw", "BIG", 87, 69);
+		join("tom", "BIG", 87, 69);
+		join("jason", "BIG", 87, 69);
 
 		wv = (WebView) findViewById(R.id.game);
 		wv.setWebChromeClient(mWebChromeClient);
@@ -87,7 +89,7 @@ public class GameActivity extends Activity implements RankListener {
 				try {
 					selectAnswerer(TEST_ACCOUNT);
 					Thread.sleep(3000);
-					matchAnswer(TEST_ACCOUNT, "6", "1");
+					matchAnswer(TEST_ACCOUNT, 1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -100,11 +102,11 @@ public class GameActivity extends Activity implements RankListener {
 	}
 
 	@Override
-	public void join(String fbId, String fbName, String win, String lose) {
+	public void join(String fbId, String fbName, int win, int lose) {
 		if (TextUtils.isEmpty(fbId)) {
 			return;
 		}
-		new Avatar().execute(fbId, fbName, win, lose);
+		new Avatar().execute(fbId, fbName, String.valueOf(win), String.valueOf(lose));
 	}
 
 	private class GameStart {
@@ -116,6 +118,8 @@ public class GameActivity extends Activity implements RankListener {
 
 				@Override
 				public void run() {
+					/* NOTICE */
+					App.getInstance().serverService.broadcast(EventType.TYPE_START, null, null);
 					dummyCallbacks.gameStart();
 				}
 			});
@@ -136,19 +140,19 @@ public class GameActivity extends Activity implements RankListener {
 	}
 
 	@Override
-	public void matchAnswer(String fbId, String questionId, String answer) {
-		boolean isCorrect = TextUtils.equals(_answer, answer);
+	public void matchAnswer(String fbId, int answer) {
+		boolean isCorrect = (answer == _answer) ? true : false;
 		String result = FAIL;
 		JSONObject object;
 
 		if (isCorrect) {
 			result = OK;
-			new SyncRank().execute(fbId, questionId, result);
+			new SyncRank().execute(fbId, null, result);
 		}
 		try {
 			object = new JSONObject();
 			object.put("status", result);
-			object.put("answer", questionId);
+			//object.put("answer", questionId);
 			wv.loadUrl("javascript:showResult('" + object.toString() + "');");
 
 			Thread.sleep(3000);
@@ -162,11 +166,13 @@ public class GameActivity extends Activity implements RankListener {
 	}
 
 	private class SyncRank extends AsyncTask<String, Void, Boolean> {
+		
+		private String fbId = null;
 
 		@Override
 		protected Boolean doInBackground(String... params) {
 			boolean result = false;
-			String fbId = params[0];
+			fbId = params[0];
 			String qId = params[1];
 			players.get(fbId).rank = 1;
 
@@ -178,6 +184,8 @@ public class GameActivity extends Activity implements RankListener {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 			if (result) {
+				/* NOTICE */
+				App.getInstance().serverService.broadcastWin(fbId);
 				// wv.loadUrl("javascript:addPlayer('" + player.toString() +
 				// "');");
 			}
@@ -250,6 +258,15 @@ public class GameActivity extends Activity implements RankListener {
 			boolean result = false;
 			question = api.getQuestion();
 			if (question != null) {
+				JSONObject options = null;
+				try {
+					options = question.getJSONObject("options");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				/* NOTICE */
+				if (options != null && options.length() == 4)
+					App.getInstance().serverService.broadcast(EventType.TYPE_OPTIONS, options, null);
 				result = true;
 			}
 			return result;
@@ -264,7 +281,7 @@ public class GameActivity extends Activity implements RankListener {
 			}
 			if (result) {
 				try {
-					_answer = question.getString("answer");
+					_answer = question.getInt("answer");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
