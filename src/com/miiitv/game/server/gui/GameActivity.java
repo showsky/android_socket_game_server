@@ -32,6 +32,7 @@ public class GameActivity extends Activity implements RankListener {
 	private final static String	FAIL			= "fail";
 	private final static String	TEST_ACCOUNT	= "jasonni1231";
 	private Api					api;
+	private String				questionId;
 	private Map<String, Player>	players;
 	private int				    _answer;
 	private Context				mContext;
@@ -39,7 +40,6 @@ public class GameActivity extends Activity implements RankListener {
 	private WebViewClient		mWebViewClient;
 	private WebChromeClient		mWebChromeClient;
 	private ClientCallbacks		dummyCallbacks;					// TODO
-																	// remove it
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -147,7 +147,7 @@ public class GameActivity extends Activity implements RankListener {
 
 		if (isCorrect) {
 			result = OK;
-			new SyncRank().execute(fbId, null, result);
+			new SyncRank().execute(fbId, result);
 		}
 		try {
 			object = new JSONObject();
@@ -166,18 +166,21 @@ public class GameActivity extends Activity implements RankListener {
 	}
 
 	private class SyncRank extends AsyncTask<String, Void, Boolean> {
-		
+
 		private String fbId = null;
 
 		@Override
 		protected Boolean doInBackground(String... params) {
-			boolean result = false;
 			fbId = params[0];
-			String qId = params[1];
-			players.get(fbId).rank = 1;
+			boolean status = false;
 
-			result = api.syncRank(players.values(), qId);
-			return result;
+			if (OK.equals(params[2])) {
+				status = true;
+			}
+			players.get(fbId).rank = 1;
+			api.syncRank(players.values(), questionId);
+
+			return status;
 		}
 
 		@Override
@@ -261,6 +264,8 @@ public class GameActivity extends Activity implements RankListener {
 				JSONObject options = null;
 				try {
 					options = question.getJSONObject("options");
+					questionId = options.getString("question_id");
+
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
