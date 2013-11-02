@@ -88,12 +88,8 @@ public class GameActivity extends Activity implements RankListener {
 	private class MediaPlayThread extends Thread {
 		
 		private MediaPlayer	mediaPlayer;
-		private boolean		isLooping	= true;
-		private int			type;
 		
 		public MediaPlayThread(int type, boolean isLooping) {
-			this.type = type;
-			this.isLooping = isLooping;
 			mediaPlayer = MediaPlayer.create(mContext, type);
 			mediaPlayer.setLooping(isLooping);
 		}
@@ -208,10 +204,8 @@ public class GameActivity extends Activity implements RankListener {
 		try {
 			object = new JSONObject();
 			object.put("status", result);
-			// object.put("answer", questionId);
+			object.put("answer", answer);
 			wv.loadUrl("javascript:showResult('" + object.toString() + "');");
-			// new Play().execute();
-
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -225,13 +219,15 @@ public class GameActivity extends Activity implements RankListener {
 		protected Boolean doInBackground(String... params) {
 			fbId = params[0];
 			boolean status = false;
-
 			if (OK.equals(params[1])) {
 				status = true;
+				App.getInstance().serverService.broadcastWin(fbId);
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {}
 			}
 			players.get(fbId).rank = 1;
 			api.syncRank(players.values(), questionId);
-
 			return status;
 		}
 
@@ -240,9 +236,8 @@ public class GameActivity extends Activity implements RankListener {
 			super.onPostExecute(result);
 			if (result) {
 				/* NOTICE */
-				App.getInstance().serverService.broadcastWin(fbId);
-				// wv.loadUrl("javascript:addPlayer('" + player.toString() +
-				// "');");
+				mediaPlayThread.stopPlay();
+				new Play().execute();
 			}
 		}
 	}
@@ -292,6 +287,10 @@ public class GameActivity extends Activity implements RankListener {
 
 		private ProgressDialog	load		= null;
 		private JSONObject		question	= null;
+		
+		public Play() {
+			Logger.d(TAG, "Play asyncTask");
+		}
 
 		@Override
 		protected void onPreExecute() {
