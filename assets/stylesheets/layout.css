@@ -204,18 +204,18 @@ img {
 /* line 83, ../sass/layout.scss */
 .loading {
   position: absolute;
-  width: 640px;
-  height: 280px;
+  width: 520px;
+  height: 200px;
   top: 50%;
   left: 50%;
-  margin-top: -140px;
-  margin-left: -320px;
+  margin-top: -120px;
+  margin-left: -260px;
   overflow: hidden;
   background: black;
   border: solid red;
   border-width: 20px 0;
   text-align: center;
-  font-size: 130px;
+  font-size: 96px;
   color: red;
 }
 /* line 98, ../sass/layout.scss */
@@ -243,7 +243,7 @@ img {
 .loading .loading_bg .col {
   display: inline-block;
   height: 280px;
-  width: 40px;
+  width: 20px;
   background: red;
   -webkit-transform: skew(-30deg, 0);
   -moz-transform: skew(-30deg, 0);
@@ -254,11 +254,11 @@ img {
 /* line 122, ../sass/layout.scss */
 .loading .text {
   position: absolute;
-  padding: 20px;
+  padding: 10px;
   top: 50%;
   left: 50%;
-  margin-top: -85px;
-  margin-left: -215px;
+  margin-top: -58px;
+  margin-left: -154px;
   background: #000;
 }
 
