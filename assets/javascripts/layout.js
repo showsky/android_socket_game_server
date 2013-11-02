@@ -147,9 +147,9 @@
         } else {
             // fail
             // update UI(fail user dark)
-            $('.hexagonal_ans:eq(' + result.answer + ')').addClass('dark');
-            $('.avatar').removeClass('dark');
-            $('#' + f_id + '').addClass('dark');
+            $('.hexagonal_ans:eq(' + result.answer - 1 + ')').addClass('dark');
+            // $('.avatar').removeClass('dark');
+            // $('#' + f_id + '').addClass('dark');
             reciprocal();
         }
     }
