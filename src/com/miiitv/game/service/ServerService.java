@@ -138,8 +138,9 @@ public class ServerService extends Service {
 						JSONObject unlockJSON = new JSONObject();
 						unlockJSON.put("type", EventType.TYPE_UNLOCK);
 						ps.println(unlockJSON.toString());
-						
 						broadcast(EventType.TYPE_LOCK, null, this);
+						if (listener != null)
+							listener.selectAnswerer(facebookID);
 						break;
 					case EventType.TYPE_ANSWER:
 						Logger.i(TAG, "Type: EventType.TYPE_ANSWER");

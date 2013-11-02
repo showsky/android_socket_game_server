@@ -164,11 +164,7 @@ public class GameActivity extends Activity implements RankListener {
 		}
 	}
 
-	/**
-	 * answer question.
-	 *
-	 * @param fbId
-	 */
+	@Override
 	public void selectAnswerer(String fbId) {
 		if (TextUtils.isEmpty(fbId)) {
 			return;
@@ -186,6 +182,8 @@ public class GameActivity extends Activity implements RankListener {
 		if (isCorrect) {
 			result = OK;
 			new SyncRank().execute(fbId, result);
+		} else {
+			//TODO:
 		}
 		try {
 			object = new JSONObject();
