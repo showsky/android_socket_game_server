@@ -86,27 +86,26 @@ public class GameActivity extends Activity implements RankListener {
 	}
 
 	private class MediaPlayThread extends Thread {
+		
 		private MediaPlayer	mediaPlayer;
 		private boolean		isLooping	= true;
 		private int			type;
+		
+		public MediaPlayThread(int type, boolean isLooping) {
+			this.type = type;
+			this.isLooping = isLooping;
+			mediaPlayer = MediaPlayer.create(mContext, type);
+			mediaPlayer.setLooping(isLooping);
+		}
 
 		@Override
 		public void run() {
-			mediaPlayer = MediaPlayer.create(mContext, type);
-			mediaPlayer.setLooping(isLooping);
 			mediaPlayer.start();
-		}
-
-		public void setType(int type) {
-			this.type = type;
-		}
-
-		public void setLooping(boolean isLooping) {
-			this.isLooping = isLooping;
 		}
 
 		public void stopPlay() {
 			mediaPlayer.stop();
+			mediaPlayer.release();
 		}
 	}
 
@@ -114,8 +113,8 @@ public class GameActivity extends Activity implements RankListener {
 		api = Api.getInstance();
 		mContext = this;
 		players = new HashMap<String, Player>();
-		mediaPlayThread = new MediaPlayThread();
-		mediaPlayThread.setType(START_SONG);
+		mediaPlayThread = new MediaPlayThread(START_SONG, true);
+		Logger.d(TAG, "Start music player: START_SONG");
 		mediaPlayThread.start();
 
 		mWebViewClient = new WebViewClient() {
@@ -179,12 +178,16 @@ public class GameActivity extends Activity implements RankListener {
 	}
 
 	@Override
-	public void selectAnswerer(String fbId) {
+	public void selectAnswerer(final String fbId) {
 		if (TextUtils.isEmpty(fbId)) {
 			return;
 		}
-		wv.loadUrl("javascript:selectAnswerer('" + fbId + "');");
-
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				wv.loadUrl("javascript:selectAnswerer('" + fbId + "');");
+			}
+		});
 	}
 
 	@Override
@@ -196,6 +199,8 @@ public class GameActivity extends Activity implements RankListener {
 		if (isCorrect) {
 			result = OK;
 			new SyncRank().execute(fbId, result);
+			Logger.d(TAG, "start music play");
+			mediaPlayThread = new MediaPlayThread(WIN_SONG, false);
 			mediaPlayThread.start();
 		} else {
 			// TODO:
@@ -274,9 +279,8 @@ public class GameActivity extends Activity implements RankListener {
 				Logger.d(TAG, String.valueOf(players.keySet().size()));
 				if (players.size() == PEOPLE_NUM) {
 					if (mediaPlayThread != null) {
+						Logger.d(TAG, "music stop");
 						mediaPlayThread.stopPlay();
-						mediaPlayThread.setType(WIN_SONG);
-						mediaPlayThread.setLooping(false);
 					}
 					new Play().execute();
 				}
