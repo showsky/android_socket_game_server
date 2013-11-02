@@ -206,7 +206,7 @@ public class GameActivity extends Activity implements RankListener {
 			fbId = params[0];
 			boolean status = false;
 
-			if (OK.equals(params[2])) {
+			if (OK.equals(params[1])) {
 				status = true;
 			}
 			players.get(fbId).rank = 1;
