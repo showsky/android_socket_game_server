@@ -139,7 +139,8 @@
         if (result.status === 'ok') {
             // right
             // win UI
-            $('.ans:eq(' + result.answer - 1  + ')').addClass('correct');
+            var ans_n = result.answer - 1;
+            $('.ans:eq(' + ans_n + ')').addClass('correct');
             // count win
             var count_win = $('#' + f_id + ' + .hex_area .right_ans').html();
             count_win = parseInt(count_win, 10);
@@ -149,9 +150,10 @@
         } else {
             // fail
             // update UI(fail user dark)
-            // $('.hexagonal_ans:eq(' + result.answer - 1 + ')').addClass('dark');
-            // $('.avatar').removeClass('dark');
-            // $('#' + f_id + '').addClass('dark');
+            $('.hexagonal_ans:eq(' + result.answer - 1 + ')').addClass('dark');
+            $('.avatar').removeClass('dark');
+            $('#' + f_id + '').addClass('dark');
+            // play music
             reciprocal();
         }
     }
@@ -160,17 +162,17 @@
      * TEST Area
      * @return {[type]} [description]
      */
-     // addPlayer(profile);
-     // addPlayer(profile);
-     // addPlayer(profile);
-     // addPlayer(profile);
-     // selectAnswerer(123456);
-     // setTimeout(function () {
-     //     showQuestion(question);
-     // }, 3000);
-     // setTimeout(function () {
-     //    showResult(ok);
-     // }, 5000);
+      addPlayer(profile);
+      // addPlayer(profile);
+      // addPlayer(profile);
+      // addPlayer(profile);
+      selectAnswerer(123456);
+      setTimeout(function () {
+          showQuestion(question);
+      }, 3000);
+      setTimeout(function () {
+         showResult(ok);
+      }, 5000);
 
 
 
