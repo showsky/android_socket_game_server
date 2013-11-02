@@ -29,7 +29,7 @@ import com.miiitv.game.server.Logger;
 public class GameActivity extends Activity implements RankListener {
 	
 	private final static boolean TEST_MODE = false;
-	private final static int PEOPLE_NUM = 1;
+	private final static int PEOPLE_NUM = 4;
 	private final static String	TAG				= "Game";
 	private final static String	GAME			= "game";
 	private final static String	OK				= "ok";
@@ -67,6 +67,20 @@ public class GameActivity extends Activity implements RankListener {
 		wv.addJavascriptInterface(new GameStart(), GAME);
 		// wv.loadUrl("file:///android_asset/example.html");
 		wv.loadUrl("file:///android_asset/layout.html");
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Logger.i(TAG, "onResume");
+		App.getInstance().serverService.listener = this;
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Logger.i(TAG, "onPause");
+		App.getInstance().serverService.listener = null;
 	}
 
 	private class MediaPlayThread extends Thread {
@@ -127,9 +141,7 @@ public class GameActivity extends Activity implements RankListener {
 
 	@Override
 	public void join(String fbId, String fbName, int win, int lose) {
-		if (TextUtils.isEmpty(fbId)) {
-			return;
-		}
+		Logger.d(TAG, "join()");
 		new Avatar().execute(fbId, fbName, String.valueOf(win), String.valueOf(lose));
 	}
 
