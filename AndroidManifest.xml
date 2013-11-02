@@ -20,22 +20,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
-        <service android:name="org.teleal.cling.android.AndroidUpnpServiceImpl" />
 
+        <service android:name=".service.ServerService"/>
+        <service android:name="org.teleal.cling.android.AndroidUpnpServiceImpl"/>
         <activity
-            android:name="com.miiitv.game.server.gui.GameActivity"
+            android:name="com.miiitv.game.server.gui.LogoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name=".service.ServerService" >
-        </service>
+        <activity android:name="com.miiitv.game.server.gui.GameActivity"
+            android:screenOrientation="landscape"/>
     </application>
-
 </manifest>

@@ -5,8 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import org.json.JSONException;
@@ -29,7 +28,7 @@ public class ServerService extends Service {
 	private final static String TAG = "ServerService";
 	private LocalBinder binder = new LocalBinder();
 	private Server server = null;
-	private HashMap<String, Client> pool = new HashMap<String, ServerService.Client>();
+	private HashSet<Client> pool = new HashSet<ServerService.Client>();
 	public RankListener listener = null;
 	private boolean isSelect = false;
 	
@@ -53,6 +52,7 @@ public class ServerService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Logger.d(TAG, "onCreate");
 		server = new Server();
 		server.start();
 	}
@@ -70,25 +70,31 @@ public class ServerService extends Service {
 		}
 		if (json.length() == 0)
 			return;
-		for (Entry<String, Client> client: pool.entrySet()) {
-			if (ownClient != null && client.getValue() == ownClient)
+		for (Client client: pool) {
+			if (ownClient != null && client == ownClient)
 				continue;
-			Logger.d(TAG, "Send id: ", client.getKey(), " message: ", json.toString());
-			client.getValue().ps.println(json.toString());
+			Logger.d(TAG, "Send message: ", json.toString());
+			client.ps.println(json.toString());
 		}
 	}
 	
 	public void broadcastWin(String facebookID) {
 		if (TextUtils.isEmpty(facebookID))
 			return;
-		Client client = pool.get(facebookID);
-		if (client != null) {
+		Client winClient = null;
+		for (Client client: pool) {
+			if (client.facebookID.equals(facebookID)) {
+				winClient = client;
+				break;
+			}
+		}
+		if (winClient != null) {
 			try {
 				JSONObject json = new JSONObject();
 				json.put("type", EventType.TYPE_WIN);
 				Logger.d(TAG, "Send win");
-				client.ps.println(json.toString());
-				broadcast(EventType.TYPE_END, null, client);
+				winClient.ps.println(json.toString());
+				broadcast(EventType.TYPE_END, null, winClient);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -105,11 +111,15 @@ public class ServerService extends Service {
 		public Scanner scanner = null;
 		private boolean isRun = false;
 		
-		public Client(String facebookID, Socket socket, PrintStream ps, Scanner scanner) {
-			this.scanner = scanner;
-			this.ps = ps;
+		public Client(Socket socket) {
 			this.socket = socket;
-			isRun = true;
+			try {
+				this.ps = new PrintStream(socket.getOutputStream());
+				this.scanner = new Scanner(new InputStreamReader(socket.getInputStream()));
+				this.scanner.useDelimiter("\n");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		private void dispath(String receive) {
@@ -121,6 +131,7 @@ public class ServerService extends Service {
 				int type = json.getInt("type");
 				switch (type) {
 					case EventType.TYPE_SHOCK:
+						Logger.i(TAG, "Type: EventType.TYPE_SHOCK");
 						if (isSelect)
 							return;
 						isSelect = true;
@@ -131,9 +142,20 @@ public class ServerService extends Service {
 						broadcast(EventType.TYPE_LOCK, null, this);
 						break;
 					case EventType.TYPE_ANSWER:
+						Logger.i(TAG, "Type: EventType.TYPE_ANSWER");
 						int answer = json.getInt("data");
 						if (listener != null)
 							listener.matchAnswer(facebookID, answer);
+						break;
+					case EventType.TYPE_JOIN:
+						Logger.i(TAG, "Type: EventType.TYPE_JOIN");
+						JSONObject dataJSON = json.getJSONObject("data");
+						facebookID = dataJSON.getString("facebook_id");
+						String facebookName = dataJSON.getString("facebook_name");
+						int win = dataJSON.getInt("win");
+						int lose = dataJSON.getInt("lose");
+						if (listener != null)
+							listener.join(facebookID, facebookName, win, lose);
 						break;
 				}
 			} catch (JSONException e) {
@@ -142,6 +164,7 @@ public class ServerService extends Service {
 		}
 		
 		private void stopClient() {
+			Logger.e(TAG, "stop client");
 			if (scanner != null)
 				scanner.close();
 			if (ps != null)
@@ -161,16 +184,20 @@ public class ServerService extends Service {
 		@Override
 		public void run() {
 			super.run();
+			Looper.prepare();
+			Logger.d(TAG , "Client start");
+			isRun = true;
 			while (isRun) {
 				if (scanner.hasNext()) {
 					String message = scanner.nextLine();
-					Logger.d(TAG, "Receive facebookID: ", facebookID, " message: ", message);
+					Logger.d(TAG,  "Receive: ", message);
 					dispath(message);
 				} else {
 					stopClient();
-					pool.remove(facebookID);
+					pool.remove(this);
 				}
 			}
+			Looper.loop();
 		}
 	}
 	
@@ -196,34 +223,16 @@ public class ServerService extends Service {
 			Logger.d(TAG, "Server run");
 			Looper.prepare();
 			try {
-				ss  = new ServerSocket(Config.PORT);
-				Socket socket = ss.accept();
-				if (pool.size() < 5)
-					socket.close();
-				Logger.d(TAG, "Connect ip: ", socket.getInetAddress().toString());
-				PrintStream ps = new PrintStream(socket.getOutputStream());
-				Scanner scanner = new Scanner(new InputStreamReader(socket.getInputStream()));
-				scanner.useDelimiter("\n");
+				ss = new ServerSocket(Config.PORT);
 				isRun = true;
 				while (isRun) {
-					if (scanner.hasNext()) {
-						String message = scanner.nextLine();
-						Logger.d(TAG, "Server Receive: ", message);
-						try {
-							JSONObject json = new JSONObject(message);
-							String facebookID = json.getString("facebook_id");
-							String facebookName = json.getString("facebook_name");
-							int win = json.getInt("win");
-							int lose = json.getInt("lose");
-							if (listener != null)
-								listener.join(facebookID, facebookName, win, lose);
-							Client client = new Client(facebookID, socket, ps, scanner);
-							client.start();
-							pool.put(facebookID, client);
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-					}
+					Socket socket = ss.accept();
+					if (pool.size() == 4)
+						socket.close();
+					Logger.d(TAG, "Connect ip: ", socket.getInetAddress().toString());
+					Client client = new Client(socket);
+					client.start();
+					pool.add(client);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
