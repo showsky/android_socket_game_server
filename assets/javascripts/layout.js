@@ -34,10 +34,14 @@
             status: 'ok',
             answer: 1
         };
+    profile = JSON.stringify(profile);
+    question = JSON.stringify(question);
+    fail = JSON.stringify(fail);
+    ok = JSON.stringify(ok);
     // static data end
 
     var n = 0,
-        fail_id;
+        f_id;
 
     function reciprocal() {
         var rec,
@@ -114,30 +118,33 @@
         reciprocal();
     }
 
-    // selectAnswerer
+    // selectAnswer
     function selectAnswerer(data) {
         // body...
         console.log(fbid);
         var fbid = JSON.parse(data);
         $('.avatar').addClass('dark');
         $('#' + fbid + '').removeClass('dark');
-        fail_id = fbid;
+        f_id = fbid;
     }
 
     // result
     function showResult(data) {
         var result = JSON.parse(data);
-        if (data.status === 'ok') {
+        if (result.status === 'ok') {
             // right
             // win UI
             $('.ans:eq(' + result.answer + ')').addClass('correct');
+            // count win
+            var count_win = $('#' + f_id + ' + .hex_area .right_ans').html();
+            $('#' + f_id + ' + .hex_area .right_ans').html(count_win + 1);
             // play music
         } else {
             // fail
             // update UI(fail user dark)
             $('.hexagonal_ans:eq(' + result.answer + ')').addClass('dark');
             $('.avatar').removeClass('dark');
-            $('#' + fail_id + '').addClass('dark');
+            $('#' + f_id + '').addClass('dark');
             reciprocal();
         }
     }
@@ -146,17 +153,17 @@
      * TEST Area
      * @return {[type]} [description]
      */
-    // addPlayer(profile);
-    // addPlayer(profile);
-    // addPlayer(profile);
-    // addPlayer(profile);
-    // selectAnswerer(123456);
-    // setTimeout(function () {
-    //     showQuestion(question);
-    // }, 5000);
-    // setTimeout(function () {
-    //     result(ok);
-    // }, 10000);
+    addPlayer(profile);
+    addPlayer(profile);
+    addPlayer(profile);
+    addPlayer(profile);
+    selectAnswerer(123456);
+    setTimeout(function () {
+         showQuestion(question);
+     }, 3000);
+     setTimeout(function () {
+        showResult(ok);
+    }, 5000);
 
 
 
