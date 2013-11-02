@@ -77,7 +77,8 @@
             lose = user.lose;
             $('.avatar:eq(' + n + ') img').attr('src', avatar).parent('.avatar').attr('id', f_id);
             $('.name:eq(' + n + ')').html(name);
-            $('.rank:eq(' + n + ')').html(win + ' Win | ' + lose + ' Lose');
+            $('.rank:eq(' + n + ')').html(
+                '<span class="win_color">' + win + ' Win</span><br><span class="lose_color">' + lose + ' Lose</span>');
             if (n === 3) {
                 finishAdd();
             }
@@ -137,6 +138,7 @@
             $('.ans:eq(' + result.answer + ')').addClass('correct');
             // count win
             var count_win = $('#' + f_id + ' + .hex_area .right_ans').html();
+            count_win = parseInt(count_win, 10);
             $('#' + f_id + ' + .hex_area .right_ans').html(count_win + 1);
             // play music
         } else {
@@ -153,17 +155,17 @@
      * TEST Area
      * @return {[type]} [description]
      */
-    // addPlayer(profile);
-    // addPlayer(profile);
-    // addPlayer(profile);
-    // addPlayer(profile);
-    // selectAnswerer(123456);
-    // setTimeout(function () {
-    //     showQuestion(question);
-    // }, 3000);
-    // setTimeout(function () {
-    //    showResult(ok);
-    // }, 5000);
+     // addPlayer(profile);
+     // addPlayer(profile);
+     // addPlayer(profile);
+     // addPlayer(profile);
+     // selectAnswerer(123456);
+     // setTimeout(function () {
+     //     showQuestion(question);
+     // }, 3000);
+     // setTimeout(function () {
+     //    showResult(ok);
+     // }, 5000);
 
 
 
