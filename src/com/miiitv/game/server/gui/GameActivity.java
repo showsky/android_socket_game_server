@@ -47,10 +47,10 @@ public class GameActivity extends Activity implements RankListener {
 		setContentView(R.layout.game);
 		init();
 
-		join(TEST_ACCOUNT, "BIG", 87, 69);
-		join("showskytw", "BIG", 87, 69);
-		join("tom", "BIG", 87, 69);
-		join("jason", "BIG", 87, 69);
+//		join(TEST_ACCOUNT, "BIG", 87, 69);
+//		join("showskytw", "BIG", 87, 69);
+//		join("tom", "BIG", 87, 69);
+//		join("jason", "BIG", 87, 69);
 
 		wv = (WebView) findViewById(R.id.game);
 		wv.setWebChromeClient(mWebChromeClient);
@@ -120,7 +120,7 @@ public class GameActivity extends Activity implements RankListener {
 				public void run() {
 					/* NOTICE */
 					App.getInstance().serverService.broadcast(EventType.TYPE_START, null, null);
-					dummyCallbacks.gameStart();
+//					dummyCallbacks.gameStart();
 				}
 			});
 		}
@@ -154,12 +154,8 @@ public class GameActivity extends Activity implements RankListener {
 			object.put("status", result);
 			//object.put("answer", questionId);
 			wv.loadUrl("javascript:showResult('" + object.toString() + "');");
+//			new Play().execute();
 
-			Thread.sleep(3000);
-			new Play().execute();
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
