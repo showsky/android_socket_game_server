@@ -78,11 +78,12 @@
             $('.avatar:eq(' + n + ') img').attr('src', avatar).parent('.avatar').attr('id', f_id);
             $('.name:eq(' + n + ')').html(name);
             $('.rank:eq(' + n + ')').html(
-                '<span class="win_color">' + win + ' Win</span><br><span class="lose_color">' + lose + ' Lose</span>');
-            if (n === 3) {
-                finishAdd();
-            }
-            n++;
+                '<span class="win_color">' +
+                win +
+                ' Win</span><br><span class="lose_color">' +
+                lose +
+                ' Lose</span>'
+            );
     }
 
     // finish add 4 player
@@ -101,6 +102,7 @@
         $('.hexagonal_ans').removeClass('dark');
         $('.ans').removeClass('correct');
         $('.avatar').removeClass('dark');
+        finishAdd();
 
         var n = 0,
             question,
