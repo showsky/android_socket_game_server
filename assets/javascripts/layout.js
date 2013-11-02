@@ -69,22 +69,22 @@
             win,
             lose,
             f_id;
-
-            f_id = user.facebook_id;
-            avatar = user.facebook_avatar;
-            name = user.facebook_name;
-            win = user.win;
-            lose = user.lose;
-            $('.avatar:eq(' + n + ') img').attr('src', avatar).parent('.avatar').attr('id', f_id);
-            $('.name:eq(' + n + ')').html(name);
-            $('.rank:eq(' + n + ')').html(
-                '<span class="win_color">' +
-                win +
-                ' Win</span><br><span class="lose_color">' +
-                lose +
-                ' Lose</span>'
-            );
-            n++;
+        console.log('Add-' + n);
+        f_id = user.facebook_id;
+        avatar = user.facebook_avatar;
+        name = user.facebook_name;
+        win = user.win;
+        lose = user.lose;
+        $('.avatar:eq(' + n + ') img').attr('src', avatar).parent('.avatar').attr('id', f_id);
+        $('.name:eq(' + n + ')').html(name);
+        $('.rank:eq(' + n + ')').html(
+            '<span class="win_color">' +
+            win +
+            ' Win</span><br><span class="lose_color">' +
+            lose +
+            ' Lose</span>'
+        );
+        n++;
     }
 
     // finish add 4 player
