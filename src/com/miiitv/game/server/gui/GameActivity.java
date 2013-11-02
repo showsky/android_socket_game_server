@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -34,12 +35,14 @@ public class GameActivity extends Activity implements RankListener {
 	private Api					api;
 	private String				questionId;
 	private Map<String, Player>	players;
-	private int				    _answer;
+	private int					_answer;
 	private Context				mContext;
 	private WebView				wv;
 	private WebViewClient		mWebViewClient;
 	private WebChromeClient		mWebChromeClient;
-	private ClientCallbacks		dummyCallbacks;					// TODO
+	// TODO
+	private ClientCallbacks		dummyCallbacks;
+	private MediaPlayThread		mediaPlayThread;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,10 +50,10 @@ public class GameActivity extends Activity implements RankListener {
 		setContentView(R.layout.game);
 		init();
 
-//		join(TEST_ACCOUNT, "BIG", 87, 69);
-//		join("showskytw", "BIG", 87, 69);
-//		join("tom", "BIG", 87, 69);
-//		join("jason", "BIG", 87, 69);
+		 join(TEST_ACCOUNT, "BIG", 87, 69);
+		 join("showskytw", "BIG", 87, 69);
+		// join("tom", "BIG", 87, 69);
+		// join("jason", "BIG", 87, 69);
 
 		wv = (WebView) findViewById(R.id.game);
 		wv.setWebChromeClient(mWebChromeClient);
@@ -61,10 +64,26 @@ public class GameActivity extends Activity implements RankListener {
 		wv.loadUrl("file:///android_asset/layout.html");
 	}
 
+	private class MediaPlayThread extends Thread {
+		private MediaPlayer	mediaPlayer;
+
+		@Override
+		public void run() {
+			mediaPlayer = MediaPlayer.create(mContext, R.raw.eva_attachment);
+			mediaPlayer.start();
+		}
+
+		public void stopPlay() {
+			mediaPlayer.stop();
+		}
+	}
+
 	private void init() {
 		api = Api.getInstance();
 		mContext = this;
 		players = new HashMap<String, Player>();
+		mediaPlayThread = new MediaPlayThread();
+		mediaPlayThread.start();
 
 		mWebViewClient = new WebViewClient() {
 			@Override
@@ -120,7 +139,7 @@ public class GameActivity extends Activity implements RankListener {
 				public void run() {
 					/* NOTICE */
 					App.getInstance().serverService.broadcast(EventType.TYPE_START, null, null);
-//					dummyCallbacks.gameStart();
+					// dummyCallbacks.gameStart();
 				}
 			});
 		}
@@ -152,9 +171,9 @@ public class GameActivity extends Activity implements RankListener {
 		try {
 			object = new JSONObject();
 			object.put("status", result);
-			//object.put("answer", questionId);
+			// object.put("answer", questionId);
 			wv.loadUrl("javascript:showResult('" + object.toString() + "');");
-//			new Play().execute();
+			// new Play().execute();
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -163,7 +182,7 @@ public class GameActivity extends Activity implements RankListener {
 
 	private class SyncRank extends AsyncTask<String, Void, Boolean> {
 
-		private String fbId = null;
+		private String	fbId	= null;
 
 		@Override
 		protected Boolean doInBackground(String... params) {
@@ -222,6 +241,9 @@ public class GameActivity extends Activity implements RankListener {
 				wv.loadUrl("javascript:addPlayer('" + player.toJSONString() + "');");
 				Logger.d(TAG, String.valueOf(players.keySet().size()));
 				if (players.size() == 4) {
+					if (mediaPlayThread != null) {
+						mediaPlayThread.stopPlay();
+					}
 					new Play().execute();
 				}
 			}
