@@ -27,6 +27,9 @@ import com.miiitv.game.server.EventType;
 import com.miiitv.game.server.Logger;
 
 public class GameActivity extends Activity implements RankListener {
+	
+	private final static boolean TEST_MODE = false;
+	private final static int PEOPLE_NUM = 1;
 	private final static String	TAG				= "Game";
 	private final static String	GAME			= "game";
 	private final static String	OK				= "ok";
@@ -50,10 +53,12 @@ public class GameActivity extends Activity implements RankListener {
 		setContentView(R.layout.game);
 		init();
 
-		 join(TEST_ACCOUNT, "BIG", 87, 69);
-		 join("showskytw", "BIG", 87, 69);
-		// join("tom", "BIG", 87, 69);
-		// join("jason", "BIG", 87, 69);
+		if (TEST_MODE) {
+			join(TEST_ACCOUNT, "BIG", 87, 69);
+			join("showskytw", "BIG", 87, 69);
+			join("tom", "BIG", 87, 69);
+			join("jason", "BIG", 87, 69);
+		}
 
 		wv = (WebView) findViewById(R.id.game);
 		wv.setWebChromeClient(mWebChromeClient);
@@ -134,12 +139,14 @@ public class GameActivity extends Activity implements RankListener {
 		public void start() {
 			Toast.makeText(mContext, "Game Start", Toast.LENGTH_SHORT).show();
 			runOnUiThread(new Runnable() {
-
 				@Override
 				public void run() {
 					/* NOTICE */
-					App.getInstance().serverService.broadcast(EventType.TYPE_START, null, null);
-					// dummyCallbacks.gameStart();
+					if (TEST_MODE) {
+						dummyCallbacks.gameStart();
+					} else {
+						App.getInstance().serverService.broadcast(EventType.TYPE_START, null, null);
+					}
 				}
 			});
 		}
@@ -240,7 +247,7 @@ public class GameActivity extends Activity implements RankListener {
 
 				wv.loadUrl("javascript:addPlayer('" + player.toJSONString() + "');");
 				Logger.d(TAG, String.valueOf(players.keySet().size()));
-				if (players.size() == 4) {
+				if (players.size() == PEOPLE_NUM) {
 					if (mediaPlayThread != null) {
 						mediaPlayThread.stopPlay();
 					}
