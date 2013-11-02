@@ -144,6 +144,12 @@
             count_win = parseInt(count_win, 10);
             $('#' + f_id + ' + .hex_area .right_ans').html(count_win + 1);
             // play music
+            setTimeout(
+                function() {
+                    reciprocal();
+                },
+                2000
+            );
         } else {
             // fail
             // update UI(fail user dark)
