@@ -93,7 +93,7 @@ img {
 
 /* line 31, ../sass/layout.scss */
 .dark {
-  opacity: 0.5;
+  -webkit-filter: blur(20px);
 }
 
 /* line 34, ../sass/layout.scss */
