@@ -100,6 +100,7 @@
     // showQuestion and begin 3210 call start
     function showQuestion(data) {
         // reset UI
+        $('#' + f_id + '').removeClass('glow');
         $('.hexagonal_ans').removeClass('dark');
         $('.ans').removeClass('correct');
         $('.avatar').removeClass('dark');
@@ -138,18 +139,19 @@
         if (result.status === 'ok') {
             // right
             // win UI
-            $('.ans:eq(' + result.answer + ')').addClass('correct');
+            $('.ans:eq(' + result.answer - 1  + ')').addClass('correct');
             // count win
             var count_win = $('#' + f_id + ' + .hex_area .right_ans').html();
             count_win = parseInt(count_win, 10);
             $('#' + f_id + ' + .hex_area .right_ans').html(count_win + 1);
             // play music
+            $('#' + f_id + '').addClass('glow');
         } else {
             // fail
             // update UI(fail user dark)
-            $('.hexagonal_ans:eq(' + result.answer + ')').addClass('dark');
-            $('.avatar').removeClass('dark');
-            $('#' + f_id + '').addClass('dark');
+            // $('.hexagonal_ans:eq(' + result.answer - 1 + ')').addClass('dark');
+            // $('.avatar').removeClass('dark');
+            // $('#' + f_id + '').addClass('dark');
             reciprocal();
         }
     }
