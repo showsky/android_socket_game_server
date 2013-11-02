@@ -1,6 +1,7 @@
 package com.miiitv.game.server;
 
 import org.teleal.cling.android.AndroidUpnpService;
+import org.teleal.cling.android.AndroidUpnpServiceImpl;
 import org.teleal.cling.model.ValidationException;
 import org.teleal.cling.registry.RegistrationException;
 
@@ -25,7 +26,7 @@ public class App extends Application {
 	public AndroidUpnpService upnpService = null;
 	public ServerService serverService = null;
 	private HandlerThread handlerThread = null;
-	private EventHandler eventHandler = null;
+	public EventHandler eventHandler = null;
 	private BrowseRegistryListener registryListener = new BrowseRegistryListener();
 	private ServiceConnection upnpServiceConnection = new ServiceConnection() {
 		@Override
@@ -92,11 +93,13 @@ public class App extends Application {
 	}
 	
 	private void initUpnp() {
-		Intent intent = new Intent(getApplicationContext(), AndroidUpnpService.class);
+		Logger.w(TAG, "init Upnp");
+		Intent intent = new Intent(getApplicationContext(), AndroidUpnpServiceImpl.class);
 		bindService(intent, upnpServiceConnection, Context.BIND_AUTO_CREATE);
 	}
 	
 	private void initServerService() {
+		Logger.w(TAG, "init Server");
 		Intent intent = new Intent(getApplicationContext(), ServerService.class);
 		bindService(intent, serverServiceConnection, Context.BIND_AUTO_CREATE);
 	}

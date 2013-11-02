@@ -28,7 +28,7 @@ public class Api {
 	private final static String	API					= Config.API_URL + "/api/";
 	private final static String	API_GET_QUESTION	= API + "get_question";
 	private final static String	API_SYNC_RANK		= API + "sync_rank";
-	private final static String	FB_GRAPH			= "https://graph.facebook.com/%s/picture?type=large&redirect=false";
+	private final static String	FB_GRAPH			= "http://graph.facebook.com/%s/picture?type=large&redirect=false";
 	private static Api			instance			= null;
 
 	private Api() {

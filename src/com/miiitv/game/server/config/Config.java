@@ -6,7 +6,7 @@ public class Config {
 	public final static boolean DEBUG_MODE = true;
 
 	public final static boolean API_READY = false;
-
+	
 	public final static String FONT_FACE = "font.ttf";
 	public final static String YAHOO = "/yahoo_hackathon_api";
 	public final static String API_URL = "http://jexpoyi.com" + YAHOO;
