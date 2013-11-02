@@ -10,7 +10,7 @@
 <body>
     <div class="corner" id="corner_1">
         <div class="avatar avatar_1" id="">
-            <img src="" alt="..." width="170" height="170">
+            <img src="ico_avatar_default.png" alt="..." width="170" height="170">
         </div>
         <div class="hex_area" id="hex_1">
             <div class="hexagonal left_top_left"></div>
@@ -27,7 +27,7 @@
     </div>
     <div class="corner" id="corner_2">
         <div class="avatar avatar_2" id="">
-            <img src="" alt="..." width="170" height="170">
+            <img src="ico_avatar_default.png" alt="..." width="170" height="170">
         </div>
         <div class="hex_area" id="hex_2">
             <div class="hexagonal left_top_left"></div>
@@ -44,7 +44,7 @@
     </div>
     <div class="corner" id="corner_3">
         <div class="avatar avatar_3" id="">
-            <img src="" alt="..." width="170" height="170">
+            <img src="ico_avatar_default.png" alt="..." width="170" height="170">
         </div>
         <div class="hex_area" id="hex_3">
             <div class="hexagonal right_top_right"></div>
@@ -61,7 +61,7 @@
     </div>
     <div class="corner" id="corner_4">
         <div class="avatar avatar_4" id="">
-            <img src="" alt="..." width="170" height="170">
+            <img src="ico_avatar_default.png" alt="..." width="170" height="170">
         </div>
         <div class="hex_area" id="hex_4">
             <div class="hexagonal right_top_right"></div>
@@ -87,27 +87,29 @@
                 test_title
             </div>
         </div>
-        <div class="question_bg hide">
-            <div class="hexagonal hexagonal_6_up"></div>
-            <div class="hexagonal hexagonal_5 hexagonal_5_up"></div>
-            <div class="hexagonal hexagonal_3 hexagonal_4_up"></div>
+        <div class="question_bg">
+            <div class="hexagonal hexagonal_7_up"></div>
+            <div class="hexagonal hexagonal_6 hexagonal_6_up"></div>
+            <!-- <div class="hexagonal hexagonal_5 hexagonal_5_up"></div> -->
+            <div class="hexagonal hexagonal_4 hexagonal_4_up"></div>
             <div class="hexagonal hexagonal_3 hexagonal_3_up"></div>
             <div class="hexagonal hexagonal_2 hexagonal_2_up"></div>
             <div class="hexagonal hexagonal_1"></div>
             <div class="hexagonal hexagonal_2 hexagonal_2_down"></div>
             <div class="hexagonal hexagonal_3 hexagonal_3_down"></div>
-            <div class="hexagonal hexagonal_3 hexagonal_4_down"></div>
-            <div class="hexagonal hexagonal_5 hexagonal_5_down"></div>
-            <div class="hexagonal hexagonal_6_down"></div>
+            <div class="hexagonal hexagonal_4 hexagonal_4_down"></div>
+            <!-- <div class="hexagonal hexagonal_5 hexagonal_5_down"></div> -->
+            <div class="hexagonal hexagonal_6 hexagonal_6_down"></div>
+            <div class="hexagonal hexagonal_7_down"></div>
         </div>
-        <div id="player" class="hide">
-            <img src="http://eofdreams.com/data_images/dreams/image/image-07.jpg" alt="" width="480" height="350">
+        <div id="player" class="">
+            <img src="http://eofdreams.com/data_images/dreams/image/image-07.jpg" alt="" width="360" height="290">
             <div class="img_corner d-30 img_corner_top img_corner_left"></div>
             <div class="img_corner d_30 img_corner_top img_corner_right"></div>
             <div class="img_corner d_30 img_corner_bottom img_corner_left"></div>
             <div class="img_corner d-30 img_corner_bottom img_corner_right"></div>
         </div>
-        <div class="ans_bg hide">
+        <div class="ans_bg">
             <div class="hexagonal hexagonal_ans top left"></div>
             <div class="hexagonal hexagonal_ans top right"></div>
             <div class="hexagonal hexagonal_ans bottom left"></div>
@@ -129,7 +131,7 @@
             </div>
         </div>
     </div>
-    <div class="loading glow">
+    <div class="loading glow hide">
         <div class="loading_bg">
             <div class="col"></div>
             <div class="col"></div>
@@ -145,6 +147,11 @@
             準備中
         </div>
     </div>
+<!--     <video src="./eva_attachment.mp3" class="attachment" autoplay>
+    </video> -->
+    <!-- <audio class="attachment" autoplay>
+        <source src="eva_attachment.mp3" type="audio/mpeg">
+    </audio> -->
 </body>
 <script src="javascripts/jquery-1.10.1.js"></script>
 <script src="javascripts/layout.js"></script>
