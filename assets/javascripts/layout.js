@@ -153,17 +153,17 @@
      * TEST Area
      * @return {[type]} [description]
      */
-    addPlayer(profile);
-    addPlayer(profile);
-    addPlayer(profile);
-    addPlayer(profile);
-    selectAnswerer(123456);
-    setTimeout(function () {
-         showQuestion(question);
-     }, 3000);
-     setTimeout(function () {
-        showResult(ok);
-    }, 5000);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // addPlayer(profile);
+    // selectAnswerer(123456);
+    // setTimeout(function () {
+    //     showQuestion(question);
+    // }, 3000);
+    // setTimeout(function () {
+    //    showResult(ok);
+    // }, 5000);
 
 
 
