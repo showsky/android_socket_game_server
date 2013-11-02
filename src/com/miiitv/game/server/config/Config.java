@@ -17,6 +17,6 @@ public class Config {
 	public final static boolean PROXY = false;
 	public final static String PROXY_IP = "192.168.0.100";
 	public final static int PROXY_PORT = 8888;
-	public final static int DEFAULT_CONNECTION_TIMEOUT = 5000;
-	public final static int DEFAULT_SOCKET_TIMEOUT = 5000;
+	public final static int DEFAULT_CONNECTION_TIMEOUT = 10000;
+	public final static int DEFAULT_SOCKET_TIMEOUT = 10000;
 }

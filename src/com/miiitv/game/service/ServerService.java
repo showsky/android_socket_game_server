@@ -62,7 +62,7 @@ public class ServerService extends Service {
 			isSelect = false;
 		JSONObject json = new JSONObject();
 		try {
-			json.put("typs", EventType.TYPE_OPTIONS);
+			json.put("type", type);
 			if (options != null)
 				json.putOpt("data", options);
 		} catch (JSONException e) {

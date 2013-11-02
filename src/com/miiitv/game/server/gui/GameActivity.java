@@ -29,7 +29,7 @@ import com.miiitv.game.server.Logger;
 public class GameActivity extends Activity implements RankListener {
 	
 	private final static boolean TEST_MODE = false;
-	private final static int PEOPLE_NUM = 4;
+	private final static int PEOPLE_NUM = 1;
 	private final static String	TAG				= "Game";
 	private final static String	GAME			= "game";
 	private final static String	OK				= "ok";
