@@ -62,7 +62,7 @@ public class ServerService extends Service {
 			isSelect = false;
 		JSONObject json = new JSONObject();
 		try {
-			json.put("typs", EventType.TYPE_OPTIONS);
+			json.put("type", type);
 			if (options != null)
 				json.putOpt("data", options);
 		} catch (JSONException e) {
@@ -131,24 +131,25 @@ public class ServerService extends Service {
 				int type = json.getInt("type");
 				switch (type) {
 					case EventType.TYPE_SHOCK:
-						Logger.i(TAG, "Type: EventType.TYPE_SHOCK");
+						Logger.i(TAG, "Dispath: EventType.TYPE_SHOCK");
 						if (isSelect)
 							return;
 						isSelect = true;
 						JSONObject unlockJSON = new JSONObject();
 						unlockJSON.put("type", EventType.TYPE_UNLOCK);
 						ps.println(unlockJSON.toString());
-						
 						broadcast(EventType.TYPE_LOCK, null, this);
+						if (listener != null)
+							listener.selectAnswerer(facebookID);
 						break;
 					case EventType.TYPE_ANSWER:
-						Logger.i(TAG, "Type: EventType.TYPE_ANSWER");
+						Logger.i(TAG, "Dispath: EventType.TYPE_ANSWER");
 						int answer = json.getInt("data");
 						if (listener != null)
 							listener.matchAnswer(facebookID, answer);
 						break;
 					case EventType.TYPE_JOIN:
-						Logger.i(TAG, "Type: EventType.TYPE_JOIN");
+						Logger.i(TAG, "Dispath: EventType.TYPE_JOIN");
 						JSONObject dataJSON = json.getJSONObject("data");
 						facebookID = dataJSON.getString("facebook_id");
 						String facebookName = dataJSON.getString("facebook_name");

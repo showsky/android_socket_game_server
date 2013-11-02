@@ -27,25 +27,27 @@ import com.miiitv.game.server.EventType;
 import com.miiitv.game.server.Logger;
 
 public class GameActivity extends Activity implements RankListener {
-	
-	private final static boolean TEST_MODE = false;
-	private final static int PEOPLE_NUM = 1;
-	private final static String	TAG				= "Game";
-	private final static String	GAME			= "game";
-	private final static String	OK				= "ok";
-	private final static String	FAIL			= "fail";
-	private final static String	TEST_ACCOUNT	= "jasonni1231";
-	private Api					api;
-	private String				questionId;
-	private Map<String, Player>	players;
-	private int					_answer;
-	private Context				mContext;
-	private WebView				wv;
-	private WebViewClient		mWebViewClient;
-	private WebChromeClient		mWebChromeClient;
+
+	private final static boolean	TEST_MODE		= false;
+	private final static int		PEOPLE_NUM		= 2;
+	private final static String		TAG				= "Game";
+	private final static String		GAME			= "game";
+	private final static String		OK				= "ok";
+	private final static String		FAIL			= "fail";
+	private final static String		TEST_ACCOUNT	= "jasonni1231";
+	private final static int		START_SONG		= R.raw.eva_attachment;
+	private final static int		WIN_SONG		= R.raw.ff_win;
+	private Api						api;
+	private String					questionId;
+	private Map<String, Player>		players;
+	private int						_answer;
+	private Context					mContext;
+	private WebView					wv;
+	private WebViewClient			mWebViewClient;
+	private WebChromeClient			mWebChromeClient;
 	// TODO
-	private ClientCallbacks		dummyCallbacks;
-	private MediaPlayThread		mediaPlayThread;
+	private ClientCallbacks			dummyCallbacks;
+	private MediaPlayThread	mediaPlayThread;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -69,13 +71,38 @@ public class GameActivity extends Activity implements RankListener {
 		wv.loadUrl("file:///android_asset/layout.html");
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Logger.i(TAG, "onResume");
+		App.getInstance().serverService.listener = this;
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Logger.i(TAG, "onPause");
+		App.getInstance().serverService.listener = null;
+	}
+
 	private class MediaPlayThread extends Thread {
 		private MediaPlayer	mediaPlayer;
+		private boolean		isLooping	= true;
+		private int			type;
 
 		@Override
 		public void run() {
-			mediaPlayer = MediaPlayer.create(mContext, R.raw.eva_attachment);
+			mediaPlayer = MediaPlayer.create(mContext, type);
+			mediaPlayer.setLooping(isLooping);
 			mediaPlayer.start();
+		}
+
+		public void setType(int type) {
+			this.type = type;
+		}
+
+		public void setLooping(boolean isLooping) {
+			this.isLooping = isLooping;
 		}
 
 		public void stopPlay() {
@@ -88,6 +115,7 @@ public class GameActivity extends Activity implements RankListener {
 		mContext = this;
 		players = new HashMap<String, Player>();
 		mediaPlayThread = new MediaPlayThread();
+		mediaPlayThread.setType(START_SONG);
 		mediaPlayThread.start();
 
 		mWebViewClient = new WebViewClient() {
@@ -127,9 +155,7 @@ public class GameActivity extends Activity implements RankListener {
 
 	@Override
 	public void join(String fbId, String fbName, int win, int lose) {
-		if (TextUtils.isEmpty(fbId)) {
-			return;
-		}
+		Logger.d(TAG, "join()");
 		new Avatar().execute(fbId, fbName, String.valueOf(win), String.valueOf(lose));
 	}
 
@@ -152,11 +178,7 @@ public class GameActivity extends Activity implements RankListener {
 		}
 	}
 
-	/**
-	 * answer question.
-	 *
-	 * @param fbId
-	 */
+	@Override
 	public void selectAnswerer(String fbId) {
 		if (TextUtils.isEmpty(fbId)) {
 			return;
@@ -174,6 +196,9 @@ public class GameActivity extends Activity implements RankListener {
 		if (isCorrect) {
 			result = OK;
 			new SyncRank().execute(fbId, result);
+			mediaPlayThread.start();
+		} else {
+			// TODO:
 		}
 		try {
 			object = new JSONObject();
@@ -196,7 +221,7 @@ public class GameActivity extends Activity implements RankListener {
 			fbId = params[0];
 			boolean status = false;
 
-			if (OK.equals(params[2])) {
+			if (OK.equals(params[1])) {
 				status = true;
 			}
 			players.get(fbId).rank = 1;
@@ -250,6 +275,8 @@ public class GameActivity extends Activity implements RankListener {
 				if (players.size() == PEOPLE_NUM) {
 					if (mediaPlayThread != null) {
 						mediaPlayThread.stopPlay();
+						mediaPlayThread.setType(WIN_SONG);
+						mediaPlayThread.setLooping(false);
 					}
 					new Play().execute();
 				}
@@ -289,7 +316,7 @@ public class GameActivity extends Activity implements RankListener {
 				JSONObject options = null;
 				try {
 					options = question.getJSONObject("options");
-					questionId = options.getString("question_id");
+					questionId = question.getString("question_id");
 
 				} catch (JSONException e) {
 					e.printStackTrace();
