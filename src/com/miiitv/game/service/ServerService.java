@@ -131,7 +131,7 @@ public class ServerService extends Service {
 				int type = json.getInt("type");
 				switch (type) {
 					case EventType.TYPE_SHOCK:
-						Logger.i(TAG, "Type: EventType.TYPE_SHOCK");
+						Logger.i(TAG, "Dispath: EventType.TYPE_SHOCK");
 						if (isSelect)
 							return;
 						isSelect = true;
@@ -143,13 +143,13 @@ public class ServerService extends Service {
 							listener.selectAnswerer(facebookID);
 						break;
 					case EventType.TYPE_ANSWER:
-						Logger.i(TAG, "Type: EventType.TYPE_ANSWER");
+						Logger.i(TAG, "Dispath: EventType.TYPE_ANSWER");
 						int answer = json.getInt("data");
 						if (listener != null)
 							listener.matchAnswer(facebookID, answer);
 						break;
 					case EventType.TYPE_JOIN:
-						Logger.i(TAG, "Type: EventType.TYPE_JOIN");
+						Logger.i(TAG, "Dispath: EventType.TYPE_JOIN");
 						JSONObject dataJSON = json.getJSONObject("data");
 						facebookID = dataJSON.getString("facebook_id");
 						String facebookName = dataJSON.getString("facebook_name");
