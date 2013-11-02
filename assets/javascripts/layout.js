@@ -84,6 +84,7 @@
                 lose +
                 ' Lose</span>'
             );
+            n++;
     }
 
     // finish add 4 player
