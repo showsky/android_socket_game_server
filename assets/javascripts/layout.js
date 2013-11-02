@@ -100,6 +100,7 @@
     // showQuestion and begin 3210 call start
     function showQuestion(data) {
         // reset UI
+        $('#' + f_id + '').removeClass('glow');
         $('.hexagonal_ans').removeClass('dark');
         $('.ans').removeClass('correct');
         $('.avatar').removeClass('dark');
@@ -144,6 +145,7 @@
             count_win = parseInt(count_win, 10);
             $('#' + f_id + ' + .hex_area .right_ans').html(count_win + 1);
             // play music
+            $('#' + f_id + '').addClass('glow');
         } else {
             // fail
             // update UI(fail user dark)
