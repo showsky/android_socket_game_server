@@ -45,7 +45,7 @@
 
     function reciprocal() {
         var rec,
-            count = 3;
+            count = 5;
         rec = setInterval(
             function () {
                 console.log('count: ' + count);
