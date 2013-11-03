@@ -12,7 +12,7 @@ import com.miiitv.game.server.Logger;
 public class LogoActivity extends Activity {
 	
 	private final static String TAG = "LogoActivity";
-	private final static int DELAY_TIME = 3 * 1000;
+	private final static int DELAY_TIME = 5 * 1000;
 	private Context mContext = null;
 	
 	@Override

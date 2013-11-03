@@ -85,7 +85,7 @@ public class Api {
 		String response;
 		try {
 			response = Network.getInstance().post(API_SYNC_RANK, values);
-			verifyStatus(response).getJSONObject(DATA);
+			verifyStatus(response);
 			result = true;
 		} catch (NetworkException e) {
 			e.printStackTrace();
