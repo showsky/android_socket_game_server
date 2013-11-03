@@ -37,6 +37,7 @@ public class GameActivity extends Activity implements RankListener {
 	private final static String		TEST_ACCOUNT	= "jasonni1231";
 	private final static int		START_SONG		= R.raw.eva_attachment;
 	private final static int		WIN_SONG		= R.raw.ff_win;
+	private final static int FAIL_SONG = R.raw.dead;
 	private Api						api;
 	private String					questionId;
 	private Map<String, Player>		players;
@@ -199,7 +200,8 @@ public class GameActivity extends Activity implements RankListener {
 			mediaPlayThread = new MediaPlayThread(WIN_SONG, false);
 			mediaPlayThread.start();
 		} else {
-			// TODO:
+			mediaPlayThread = new MediaPlayThread(FAIL_SONG, false);
+			mediaPlayThread.start();
 		}
 		try {
 			object = new JSONObject();
