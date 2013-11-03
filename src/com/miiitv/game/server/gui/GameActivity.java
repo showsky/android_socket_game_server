@@ -176,6 +176,7 @@ public class GameActivity extends Activity implements RankListener {
 
 	@Override
 	public void selectAnswerer(final String fbId) {
+		Logger.d(TAG, "selectAnswerer()");
 		if (TextUtils.isEmpty(fbId)) {
 			return;
 		}
@@ -189,17 +190,20 @@ public class GameActivity extends Activity implements RankListener {
 
 	@Override
 	public void matchAnswer(String fbId, int answer) {
+		Logger.d(TAG, "matchAnswer() fid: ", fbId, " answer: ", String.valueOf(answer));
 		boolean isCorrect = (answer == _answer) ? true : false;
 		String result = FAIL;
 		JSONObject object;
 
 		if (isCorrect) {
+			Logger.d(TAG, "correct");
 			result = OK;
 			new SyncRank().execute(fbId, result);
 			Logger.d(TAG, "start music play");
 			mediaPlayThread = new MediaPlayThread(WIN_SONG, false);
 			mediaPlayThread.start();
 		} else {
+			Logger.d(TAG, "faile");
 			mediaPlayThread = new MediaPlayThread(FAIL_SONG, false);
 			mediaPlayThread.start();
 		}
@@ -279,6 +283,9 @@ public class GameActivity extends Activity implements RankListener {
 						Logger.d(TAG, "music stop");
 						mediaPlayThread.stopPlay();
 					}
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {}
 					new Play().execute();
 				}
 			}
