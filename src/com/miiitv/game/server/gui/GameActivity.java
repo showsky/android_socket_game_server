@@ -31,7 +31,7 @@ public class GameActivity extends Activity implements RankListener {
 	private final static boolean	TEST_MODE		= false;
 	private final static int		PEOPLE_NUM		= 2;
 	private final static String		TAG				= "Game";
-	private final static String		GAME			= "game";
+	private final static String		GAME			= "gae";
 	private final static String		OK				= "ok";
 	private final static String		FAIL			= "fail";
 	private final static String		TEST_ACCOUNT	= "jasonni1231";
